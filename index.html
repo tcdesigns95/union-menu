@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Union Dispensary Interactive Menu</title>
     
+    <!-- Custom Google Fonts for branding -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // === Custom Tailwind Configuration for Branding ===
@@ -14,17 +16,17 @@
             theme: {
                 extend: {
                     colors: {
-                        cream: '#F8F2E2',     // Light background
-                        sage: '#808A6F',      // Accent and detail
-                        forest: '#22352F',    // Dark text and primary elements
-                        red_sale: '#EF4444',  // Red color for sold out/featured status
+                        cream: '#F8F2E2',      // Light background
+                        sage: '#808A6F',       // Accent and detail
+                        forest: '#22352F',     // Dark text and primary elements
+                        red_sale: '#EF4444',   // Red color for sold out/featured status
                         orange_low: '#F59E0B', // Orange for low stock
-                        sale_blue: '#3B82F6', // Blue for Sale status
+                        sale_blue: '#3B82F6',  // Blue for Sale status
                     },
                     fontFamily: {
                         script: ['Great Vibes', 'cursive'], // Script font for main title
-                        serif: ['Lora', 'serif'],         // Serif font for body text
-                        sans: ['Inter', 'sans-serif'],    // Fallback sans
+                        serif: ['Lora', 'serif'],           // Serif font for body text
+                        sans: ['Inter', 'sans-serif'],      // Fallback sans
                     },
                 }
             }
@@ -103,13 +105,17 @@
 </head>
 <body class="bg-sage min-h-screen">
 
+    <!-- Main Container -->
     <div id="app" class="max-w-7xl mx-auto bg-cream shadow-2xl min-h-screen">
 
+        <!-- Header and Navigation -->
         <header class="sticky top-0 z-30 shadow-lg bg-forest">
             <div class="p-4 flex justify-between items-center text-cream">
                 
+                <!-- Title -->
                 <h1 class="text-3xl md:text-4xl font-script text-cream">Union Dispensary</h1>
                 
+                <!-- Edit Toggle Button -->
                 <button id="edit-toggle-btn" class="bg-sage text-cream p-3 rounded-full btn-brand hover:bg-sage/80" onclick="toggleEditMode()" title="Toggle Edit Mode">
                     <svg id="settings-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform duration-300">
                         <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.78 1.35a2 2 0 0 0 .72 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15-.09a2 2 0 0 0-.73 2.73l.78 1.35a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.18a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.78-1.35a2 2 0 0 0-.72-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.78-1.35a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
@@ -118,25 +124,38 @@
                 </button>
             </div>
 
+            <!-- Category Tabs -->
             <div id="category-tabs" class="categories-container flex overflow-x-auto border-t border-b border-cream/20 bg-forest/90 sticky top-[68px] md:top-[76px] z-20">
+                <!-- Tabs rendered by JS -->
             </div>
         </header>
 
+        <!-- Main Content Area -->
         <main class="p-4 md:p-6">
             
+            <!-- Admin Controls (Search/Sort) - REMOVED sticky class -->
             <div id="controls-container" class="bg-cream pt-2 pb-4 z-10">
+                <!-- Controls rendered by JS -->
             </div>
 
+            <!-- Add Item Button (Admin Mode) -->
             <div id="add-item-container" class="mb-6 hidden">
+                <!-- Content rendered by JS -->
             </div>
 
+            <!-- Loading Indicator -->
             <div class="text-center text-xl text-sage pt-10" id="loading-indicator">Loading menu data...</div>
 
+            <!-- Product List: UPDATED TO GRID FOR DENSITY -->
             <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pt-4">
+                <!-- Product cards rendered by JS -->
             </div>
         </main>
     </div>
 
+    <!-- === MODALS === -->
+
+    <!-- Admin PIN Modal -->
     <div id="pin-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest">
             <h3 class="text-2xl font-bold mb-4 font-serif">Enter Admin Key</h3>
@@ -150,12 +169,14 @@
         </div>
     </div>
 
+    <!-- CRUD (Create/Edit) Modal -->
     <div id="crud-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4">
         <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-xl text-forest my-8 font-serif">
             <h3 id="crud-modal-title" class="text-3xl font-bold mb-6 border-b pb-3 border-sage/50"></h3>
             
             <form id="crud-form">
                 <div id="crud-fields-container" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    <!-- Form fields generated by JS -->
                 </div>
                 <div class="flex justify-end space-x-3 mt-8 pt-4 border-t border-sage/50">
                     <button type="button" class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition btn-brand" onclick="hideCrudModal()">Cancel</button>
@@ -165,22 +186,25 @@
         </div>
     </div>
     
+    <!-- Delete Confirmation Modal -->
     <div id="delete-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-md text-forest">
             <h3 class="text-2xl font-bold mb-4 font-serif">Confirm Deletion</h3>
             <p class="mb-6 font-serif">Are you sure you want to delete <span id="delete-item-name" class="font-bold text-red_sale"></span>? This action cannot be undone.</p>
             <div class="flex justify-end space-x-3">
-                <button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideDeleteModal()">Cancel</button>
-                <button class="bg-red_sale text-white p-3 rounded-lg font-bold hover:bg-red-700 transition btn-brand" onclick="executeDelete()">Delete Permanently</button>
+                <button class="flex-1 bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideDeleteModal()">Cancel</button>
+                <button class="flex-1 bg-red_sale text-white p-3 rounded-lg font-bold hover:bg-red-700 transition btn-brand" onclick="executeDelete()">Delete Permanently</button>
             </div>
         </div>
     </div>
 
+    <!-- Category Selection Modal (for adding items in 'All Products' view) -->
     <div id="category-selection-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest">
             <h3 class="text-2xl font-bold mb-4 font-serif">Select Product Category</h3>
             <p class="mb-6 text-sage font-serif">Which type of product are you adding?</p>
             <div id="category-buttons-container" class="grid grid-cols-2 gap-3">
+                <!-- Buttons rendered by JS -->
             </div>
             <div class="mt-6 flex justify-end">
                 <button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideCategorySelectionModal()">Cancel</button>
@@ -188,10 +212,12 @@
         </div>
     </div>
     
+    <!-- Item Detail / Quick View Modal (Customer View) -->
     <div id="item-detail-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4">
         <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg text-forest my-8 font-serif">
             <h3 id="detail-modal-title" class="text-3xl font-bold mb-4 border-b pb-2 border-sage/50"></h3>
             <div id="detail-modal-body" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                <!-- Details rendered by JS -->
             </div>
             <div class="mt-8 flex justify-end">
                 <button class="bg-sage text-cream p-3 rounded-lg font-bold hover:bg-forest transition btn-brand" onclick="hideItemDetailModal()">Close</button>
@@ -199,9 +225,11 @@
         </div>
     </div>
     
+    <!-- Global Message/Toast Notification -->
     <div id="message-box" class="hidden fixed top-24 right-4 bg-forest text-cream p-4 rounded-lg shadow-xl opacity-0 transition-all duration-300 z-50 font-serif min-w-[200px]"></div>
 
 
+    <!-- Firebase Imports and Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -230,10 +258,23 @@
         window.writeBatch = writeBatch;
         
         // Initialization Logic
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         
-        if (Object.keys(firebaseConfig).length > 0) {
+        const firebaseConfig = {
+  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
+  authDomain: "union-live-menu.firebaseapp.com",
+  projectId: "union-live-menu",
+  storageBucket: "union-live-menu.firebasestorage.app",
+  messagingSenderId: "724633408861",
+  appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
+  measurementId: "G-E6C1E25NLW"
+};
+        
+        // =======================================================================
+        // (No more edits needed below this line in this script block)
+        // =======================================================================
+
+        
+        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
             try {
                 const app = initializeApp(firebaseConfig);
                 window.db = getFirestore(app);
@@ -246,12 +287,11 @@
         // Authentication Function
         async function authenticate() {
             try {
-                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (initialAuthToken) {
-                    await window.signInWithCustomToken(window.auth, initialAuthToken);
-                } else {
-                    await window.signInAnonymously(window.auth);
-                }
+                // This app uses Anonymous Sign-In. 
+                // Any user (customer or admin) gets a temporary anonymous account.
+                // Your Firestore Security Rules will handle authorization.
+                await window.signInAnonymously(window.auth);
+                
                 window.userId = window.auth.currentUser.uid;
                 window.initMenu(); 
             } catch (error) {
@@ -259,10 +299,6 @@
                 if(window.showMessage) {
                     window.showMessage("Could not authenticate with database.", true); 
                 }
-                // ******************************************************
-                // ***** THIS IS THE LINE I AM ADDING FOR THE FIX *****
-                // ******************************************************
-                window.initMenu(true); // Load mock data on failure
             }
         }
         
@@ -278,6 +314,7 @@
 
     </script>
     
+    <!-- Main Application Logic (Exposed to window for event handlers) -->
     <script>
         // === App State and Configuration ===
         
@@ -431,20 +468,12 @@
                 { id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Must mention code "BOGO50"' },
             ]
         };
-window.firebaseConfig = {
-  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
-  authDomain: "union-live-menu.firebaseapp.com",
-  projectId: "union-live-menu",
-  storageBucket: "union-live-menu.firebasestorage.app",
-  messagingSenderId: "724633408861",
-  appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
-  measurementId: "G-E6C1E25NLW"
-};
+
         // Helper to get the correct public collection path
-       function getCollectionPath(category) {
-    const appId = window.firebaseConfig.appId;
-    return `artifacts/${appId}/public/data/${category}`;
-}
+        function getCollectionPath(category) {
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            return `artifacts/${appId}/public/data/${category}`;
+        }
 
         // --- Core Utility Functions (Needed early) ---
 
@@ -893,8 +922,8 @@ window.firebaseConfig = {
 
             if (supportsTypeFilter) {
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                                <label class="text-xs font-bold text-forest mb-1 block">Filter by Type:</label>
-                                <div class="flex flex-wrap gap-2">`;
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Type:</label>
+                            <div class="flex flex-wrap gap-2">`;
                 
                 typeFilters.forEach(type => {
                     const filterValue = type === 'All Types' ? 'All' : type;
@@ -910,9 +939,9 @@ window.firebaseConfig = {
             if (currentCategory === 'Edibles') {
                 const cannabinoidFilters = ['All Cannabinoids', 'THC', 'CBD', 'CBG', 'CBN', 'CBC'];
                  html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                                  <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Focus:</label>
-                                  <div class="flex flex-wrap gap-2">`;
-                
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Focus:</label>
+                             <div class="flex flex-wrap gap-2">`;
+                 
                  cannabinoidFilters.forEach(cb => {
                      const filterValue = cb === 'All Cannabinoids' ? 'All' : cb;
                      const isActive = currentCannabinoidFilter === filterValue;
@@ -927,8 +956,8 @@ window.firebaseConfig = {
             if (currentCategory === 'Concentrates') {
                 const formatFilters = ['All Formats', 'Live Resin', 'Live Rosin'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                                <label class="text-xs font-bold text-forest mb-1 block">Filter by Concentrate Format:</label>
-                                <div class="flex flex-wrap gap-2">`;
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Concentrate Format:</label>
+                            <div class="flex flex-wrap gap-2">`;
                 
                 formatFilters.forEach(format => {
                     const filterValue = format === 'All Formats' ? 'All' : format;
@@ -944,8 +973,8 @@ window.firebaseConfig = {
              if (currentCategory === 'Tinctures') {
                 const ratioFilters = ['All Ratios', '1:1', '5:1 CBD', 'CBD Only', 'THC Only'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                                <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Ratio:</label>
-                                <div class="flex flex-wrap gap-2">`;
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Ratio:</label>
+                            <div class="flex flex-wrap gap-2">`;
                 
                 ratioFilters.forEach(ratio => {
                     const filterValue = ratio === 'All Ratios' ? 'All' : ratio;
@@ -961,8 +990,8 @@ window.firebaseConfig = {
              if (currentCategory === 'Topicals') {
                 const formFilters = ['All Forms', 'Lotion', 'Balm', 'Salt', 'Oil'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                                <label class="text-xs font-bold text-forest mb-1 block">Filter by Product Form:</label>
-                                <div class="flex flex-wrap gap-2">`;
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Product Form:</label>
+                            <div class="flex flex-wrap gap-2">`;
                 
                 formFilters.forEach(form => {
                     const filterValue = form === 'All Forms' ? 'All' : form;
@@ -976,3 +1005,384 @@ window.firebaseConfig = {
 
             // --- Cartridges Filters (Format, Size, Device) ---
             if (currentCategory === 'Cartridges') {
+                // 1. Content/Format Filter (Live Rosin / Live Resin)
+                const cartFormatFilters = ['All Contents', 'Live Rosin', 'Live Resin', 'Distillate', 'Oil'];
+                html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Content:</label>
+                            <div class="flex flex-wrap gap-2">`;
+                cartFormatFilters.forEach(format => {
+                    const filterValue = format === 'All Contents' ? 'All' : format;
+                    const isActive = currentFormatFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    html += `<button onclick="handleFormatFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${format}</button>`;
+                });
+                html += `</div></div>`;
+                
+                // 2. Volume/Size Filter (0.5g / 1g / 2g)
+                const volumeFilters = ['All Volumes', '0.5g', '1g', '2g'];
+                html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Volume:</label>
+                            <div class="flex flex-wrap gap-2">`;
+                volumeFilters.forEach(volume => {
+                    const filterValue = volume === 'All Volumes' ? 'All' : volume;
+                    const isActive = currentVolumeFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    html += `<button onclick="handleVolumeFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${volume}</button>`;
+                });
+                html += `</div></div>`;
+
+                // 3. Device Type Filter (510 / AIO)
+                const deviceFilters = ['All Devices', '510 Screw On', 'All-In-One'];
+                html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Device Type:</label>
+                            <div class="flex flex-wrap gap-2">`;
+                deviceFilters.forEach(device => {
+                    const filterValue = device === 'All Devices' ? 'All' : device;
+                    const isActive = currentDeviceFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    html += `<button onclick="handleDeviceFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${device}</button>`;
+                });
+                html += `</div></div>`;
+            }
+
+            // --- Pre-Rolls Filters (Weight, Packaging, Infusion) ---
+            if (currentCategory === 'Pre-Rolls') {
+                // 1. Weight Filter (0.5g / 1g / 1.5g)
+                const weightFilters = ['All Weights', '0.5g', '1g', '1.5g'];
+                html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Weight:</label>
+                            <div class="flex flex-wrap gap-2">`;
+                weightFilters.forEach(weight => {
+                    const filterValue = weight === 'All Weights' ? 'All' : weight;
+                    const isActive = currentWeightFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    html += `<button onclick="handleWeightFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${weight}</button>`;
+                });
+                html += `</div></div>`;
+                
+                // 2. Packaging/Infusion Filter (Packs / Singles / Infused)
+                const packInfusionFilters = ['All Packaging', 'Singles', 'Packs', 'Infused', 'Non-Infused'];
+                html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Packaging/Infusion:</label>
+                            <div class="flex flex-wrap gap-2">`;
+                
+                packInfusionFilters.forEach(filter => {
+                    const filterValue = filter === 'All Packaging' ? 'All' : filter;
+                    let isActive = false;
+                    let handler = '';
+                    
+                    if (filter === 'Singles' || filter === 'Packs') {
+                        isActive = currentPackagingFilter === filter;
+                        handler = `currentPackagingFilter = '${filterValue}'; currentInfusionFilter = 'All'`;
+                    } else if (filter === 'Infused') {
+                        isActive = currentInfusionFilter === 'Yes';
+                        handler = `currentInfusionFilter = 'Yes'; currentPackagingFilter = 'All'`;
+                    } else if (filter === 'Non-Infused') {
+                         isActive = currentInfusionFilter === 'No';
+                         handler = `currentInfusionFilter = 'No'; currentPackagingFilter = 'All'`;
+                    } else { // All Packaging
+                        isActive = currentPackagingFilter === 'All' && currentInfusionFilter === 'All';
+                        handler = `currentPackagingFilter = 'All'; currentInfusionFilter = 'All'`; 
+                    }
+                    
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    
+                    // FIX: Simplified ALL button logic slightly for clean click handler
+                    html += `<button onclick="${handler}; renderControls(); renderMenu();" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${filter}</button>`;
+                });
+                html += `</div></div>`;
+            }
+
+
+            // --- Sort Controls ---
+            let sortOptions = [{ value: 'name', label: 'Name' }];
+            const fields = categoryFields[currentCategory] || [];
+            
+            fields.forEach(f => {
+                if(f.sortable && f.id !== 'name') {
+                    // FIX: If Flower, add only one consolidated Price option
+                    if (currentCategory === 'Flower' && f.id.startsWith('price_')) {
+                        if (f.id === 'price_1g') {
+                            sortOptions.push({ value: 'price_1g', label: 'Price (1g Base)' });
+                        }
+                        return;
+                    } 
+                    sortOptions.push({ value: f.id, label: f.label.split('(')[0].trim() });
+                }
+            });
+            
+            // Consolidate All Products Sort Options
+            if (currentCategory === 'All Products' || currentCategory === 'Specials') {
+                 sortOptions = [{ value: 'name', label: 'Name' }, { value: 'price', label: 'Price (Default)' }, { value: 'type', label: 'Type' }];
+                 if(!['name', 'price', 'type'].includes(currentSortBy)) { currentSortBy = 'name'; }
+            } else if (currentCategory !== 'Flower') {
+                 sortOptions = sortOptions.filter(opt => !opt.value.startsWith('price_'));
+                 if (!sortOptions.some(opt => opt.value === 'price')) {
+                    sortOptions.push({ value: 'price', label: 'Price' });
+                 }
+            }
+
+
+            html += `
+                <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <label for="sort-by" class="text-xs font-bold text-forest whitespace-nowrap">Sort By:</label>
+                        <select id="sort-by" onchange="handleSortChange(event)" class="p-1.5 border border-sage/50 rounded-lg bg-white text-forest text-xs w-full font-serif">
+            `;
+            sortOptions.forEach(opt => { html += `<option value="${opt.value}" ${currentSortBy === opt.value ? 'selected' : ''}>${opt.label}</option>`; });
+
+            html += `</select></div><div class="flex space-x-2 w-full sm:w-auto justify-end">
+                        <button class="flex items-center space-x-1 p-1.5 rounded-lg text-xs transition btn-brand w-1/2 sm:w-auto ${currentSortDirection === 'asc' ? 'bg-forest text-cream' : 'bg-gray-200 text-forest hover:bg-gray-300'}" onclick="handleSortDirection('asc')" title="Sort Ascending">A-Z / Low <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button>
+                        <button class="flex items-center space-x-1 p-1.5 rounded-lg text-xs transition btn-brand w-1/2 sm:w-auto ${currentSortDirection === 'desc' ? 'bg-forest text-cream' : 'bg-gray-200 text-forest hover:bg-gray-300'}" onclick="handleSortDirection('desc')" title="Sort Descending">Z-A / High <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
+                    </div>
+                </div>
+            `;
+            
+            controlsContainer.innerHTML = html;
+            if (document.getElementById('search-input')) { document.getElementById('search-input').value = currentSearchQuery; }
+            if (document.getElementById('sort-by')) { document.getElementById('sort-by').value = currentSortBy; }
+        }
+        
+        function renderCategories() {
+            const tabsContainer = document.getElementById('category-tabs');
+            tabsContainer.innerHTML = '';
+            navCategories.forEach(category => {
+                const isActive = currentCategory === category;
+                const button = document.createElement('button');
+                button.onclick = () => window.changeCategory(category);
+                const iconHtml = categoryIcons[category] || '';
+                const activeClasses = 'bg-sage text-cream border-b-4 border-cream';
+                const inactiveClasses = 'text-cream/70 hover:text-cream/90 hover:bg-forest/70 transition';
+                // FIX: Added flex-grow and flex-shrink to distribute width evenly
+                button.innerHTML = `<span class="flex items-center space-x-1 sm:space-x-2">${iconHtml}<span>${category}</span></span>`;
+                button.className = `p-3 sm:p-4 flex-grow flex-shrink-0 text-xs sm:text-base font-bold ${isActive ? activeClasses : inactiveClasses} whitespace-nowrap`;
+                tabsContainer.appendChild(button);
+            });
+        }
+        
+        function renderMenu() {
+            const productList = document.getElementById('product-list');
+            let itemsToDisplay = [];
+            
+            if (currentCategory === 'All Products') {
+                for (const cat in inventory) { for (const id in inventory[cat]) { itemsToDisplay.push(inventory[cat][id]); } }
+            } else if (currentCategory === 'Specials') {
+                 itemsToDisplay = [];
+                 for (const cat in inventory) {
+                     for (const id in inventory[cat]) {
+                         const item = inventory[cat][id];
+                         if ((cat === 'Specials' && !item.category_target) || (item.isFeatured && item.category !== 'Specials') || (item.isOnSale && item.category !== 'Specials')) {
+                             itemsToDisplay.push(item);
+                         }
+                     }
+                 }
+                 itemsToDisplay = itemsToDisplay.filter((value, index, self) =>
+                    index === self.findIndex((t) => (t.id === value.id && t.category === value.category))
+                 );
+            } else if (inventory[currentCategory]) {
+                itemsToDisplay = Object.values(inventory[currentCategory]);
+            }
+
+            if (currentSearchQuery.length > 0) {
+                itemsToDisplay = itemsToDisplay.filter(item => Object.values(item).some(value => 
+                    typeof value === 'string' && value.toLowerCase().includes(currentSearchQuery)));
+            }
+            
+            // --- FILTERING LOGIC ---
+            
+            // 1. Type Filter (Universal for Flower, Concentrates, Cartridges, Pre-Rolls, Edibles)
+            if (currentTypeFilter !== 'All') {
+                itemsToDisplay = itemsToDisplay.filter(item => item.type && item.type === currentTypeFilter);
+            }
+            
+            // 2. Concentrates Format Filter (Live Resin / Live Rosin)
+            if (currentCategory === 'Concentrates' && currentFormatFilter !== 'All') {
+                itemsToDisplay = itemsToDisplay.filter(item => item.format && item.format === currentFormatFilter);
+            }
+            
+            // 3. Topicals Form Filter (Lotions / Balms / Salts / Oils)
+            if (currentCategory === 'Topicals' && currentFormFilter !== 'All') {
+                 itemsToDisplay = itemsToDisplay.filter(item => item.form && item.form === currentFormFilter);
+            }
+
+            // 4. Tinctures Ratio Filter
+            if (currentCategory === 'Tinctures' && currentRatioFilter !== 'All') {
+                 itemsToDisplay = itemsToDisplay.filter(item => item.ratio && item.ratio === currentRatioFilter);
+            }
+
+            // 5. Edibles Cannabinoid Filter (NEW)
+            if (currentCategory === 'Edibles' && currentCannabinoidFilter !== 'All') {
+                 itemsToDisplay = itemsToDisplay.filter(item => item.cannabinoids && item.cannabinoids.includes(currentCannabinoidFilter));
+            }
+            
+            // Cartridges Filters
+            if (currentCategory === 'Cartridges') {
+                if (currentFormatFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.format_type && item.format_type === currentFormatFilter); }
+                if (currentDeviceFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.device_type && item.device_type === currentDeviceFilter); }
+                if (currentVolumeFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.volume && item.volume === currentVolumeFilter); }
+            }
+
+            // Pre-Rolls Filters
+            if (currentCategory === 'Pre-Rolls') {
+                if (currentWeightFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.weight && item.weight === currentWeightFilter); }
+                if (currentPackagingFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.packaging && item.packaging === currentPackagingFilter); }
+                if (currentInfusionFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item => item.infused && item.infused === currentInfusionFilter); }
+            }
+
+            // --- END FILTERING LOGIC ---
+            
+            // Sorting Logic
+            itemsToDisplay.sort((a, b) => {
+                const featuredCompare = (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
+                if (featuredCompare !== 0) return featuredCompare;
+                const soldOutCompare = (a.isSoldOut ? 1 : 0) - (b.isSoldOut ? 1 : 0);
+                if (soldOutCompare !== 0) return soldOutCompare;
+
+                let aValue = a[currentSortBy] || '';
+                let bValue = b[currentSortBy] || '';
+                let comparison = 0;
+                
+                let sortKey = currentSortBy;
+                
+                const priceFields = ['price_1g', 'price_35g', 'price_7g', 'price'];
+                if (priceFields.includes(sortKey) || ((currentCategory === 'All Products' || currentCategory === 'Specials') && currentSortBy === 'price')) {
+                    
+                    if ((currentCategory === 'All Products' || currentCategory === 'Specials') && currentSortBy === 'price') {
+                        aValue = a.price_1g || a.price; // Use 1g price as base in All Products
+                        bValue = b.price_1g || b.price;
+                    } else if (currentCategory === 'Flower' && currentSortBy === 'price_1g') { // Specific Flower Price Sort Fix
+                        aValue = a.price_1g;
+                        bValue = b.price_1g;
+                    }
+                    
+                    const numericA = extractPrice(aValue);
+                    const numericB = extractPrice(bValue);
+                    comparison = numericA - numericB;
+
+                } else {
+                    comparison = String(aValue).localeCompare(String(bValue), undefined, { numeric: true });
+                }
+                
+                return currentSortDirection === 'asc' ? comparison : -comparison;
+            });
+
+            // Render HTML
+            if (itemsToDisplay.length === 0) {
+                let message = `No items available in the ${currentCategory} category.`;
+                if (currentCategory === 'Specials') { message = `No specials are currently active.`; }
+                else if (currentSearchQuery.length > 0) { message = `No products found matching "${currentSearchQuery}".`; } 
+                else if (currentTypeFilter !== 'All') { message = `No ${currentTypeFilter} products found in this category.`; }
+                // Add specific filter error messages if needed here
+                productList.innerHTML = `<div class="col-span-full text-center text-xl text-sage pt-10 font-serif">${message}</div>`;
+            } else {
+                productList.innerHTML = itemsToDisplay.map(renderProductCard).join('');
+            }
+        }
+        
+        // Final function definitions and Initialization logic
+        
+        function renderProductCard(item) {
+            const isFlower = item.category === 'Flower';
+            const priceColorClass = item.isFeatured ? 'text-red_sale' : 'text-forest';
+
+            let priceHtml = '';
+
+            if (isFlower) {
+                // Flower: Display 1g and 3.5g price side-by-side
+                priceHtml = `
+                    <div class="flex flex-col space-y-1">
+                        <span class="text-xl font-bold ${priceColorClass}">${item.price_1g || 'N/A'}</span>
+                        <span class="text-xs text-sage/90">${item.price_35g || 'N/A'} / 3.5g</span>
+                    </div>
+                `;
+            } else {
+                // Other: Display unit price
+                priceHtml = `<span class="text-xl font-bold ${priceColorClass}">${item.price || 'N/A'}</span>`;
+            }
+            
+            const soldOutBadge = item.isSoldOut ? `<div class="absolute inset-0 bg-forest/80 flex items-center justify-center rounded-xl pointer-events-none z-10"><span class="text-xl md:text-2xl font-bold text-cream bg-red_sale/90 p-2 md:p-3 shadow-2xl transform -rotate-6 rounded-xl whitespace-nowrap">SOLD OUT</span></div>` : '';
+            const featuredBanner = item.isFeatured ? `<div class="bg-red_sale text-cream text-center text-xs font-bold py-1 uppercase tracking-wider">⭐ FEATURED PRODUCT</div>` : '';
+            
+            // NEW: Low Stock and Sale Badges (Priority: Sale > Low Stock)
+            let topRightBadges = '';
+            let badges = [];
+
+            // Low Stock Badge
+            if (item.isLowStock && !item.isSoldOut && !item.isFeatured) {
+                 badges.push(`<span class="bg-orange_low text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">LOW STOCK</span>`);
+            }
+            // On Sale Badge
+            if (item.isOnSale && !item.isSoldOut && !item.isFeatured) {
+                 badges.push(`<span class="bg-sale_blue text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">ON SALE</span>`);
+            }
+            
+            if (badges.length > 0) {
+                 topRightBadges = `<div class="flex space-x-1 absolute top-2 right-2 z-5">${badges.join('')}</div>`;
+            }
+
+            
+            const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.03] overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : ''}`;
+            const clickHandler = !isEditMode ? `onclick="showItemDetailModal('${item.id}')"` : '';
+            
+            let cardHtml = `
+                <div class="${cardClasses}" ${clickHandler}>
+                    ${soldOutBadge}
+                    ${featuredBanner}
+                    ${topRightBadges}
+                    
+                    <div class="p-4 pt-3 flex flex-col justify-start flex-grow">
+                        ${(currentCategory === 'All Products' || currentCategory === 'Specials') && !item.isFeatured ? `<span class="text-xs font-bold text-sage block mb-1">${item.category.toUpperCase()}</span>` : ''}
+                        ${(currentCategory === 'All Products' || currentCategory === 'Specials') && item.isFeatured ? `<span class="text-xs font-bold text-sage block mt-6 mb-1">${item.category.toUpperCase()}</span>` : ''}
+                        ${(currentCategory === 'All Products' || currentCategory === 'Specials') && (item.isLowStock || item.isOnSale) && !item.isFeatured ? `<span class="text-xs font-bold text-sage block mt-6 mb-1">${item.category.toUpperCase()}</span>` : ''}
+
+
+                        <h2 class="text-xl font-bold text-forest mb-1 truncate" title="${item.name}">${item.name}</h2>
+                        <p class="text-sage text-xs mb-2"><span class="font-semibold">${item.brand || item.grower || ''}</span> ${item.type ? `| ${item.type}` : ''}</p>
+                        <p class="text-forest/80 text-sm line-clamp-2">${item.description || 'No description available.'}</p>
+                    </div>
+
+                    <div class="p-4 pt-3 border-t border-sage/20 mt-auto flex justify-between items-center bg-cream/70">
+                        <div class="text-forest">${priceHtml}</div>`;
+            
+            if (isEditMode) {
+                cardHtml += `<div class="flex space-x-2 z-20">
+                            <button onclick="event.stopPropagation(); showCrudModal('${item.id}')" class="bg-sage text-cream p-2 rounded-lg text-xs hover:bg-forest transition btn-brand" title="Edit Item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
+                            <button onclick="event.stopPropagation(); showDeleteModal('${item.id}')" class="bg-red_sale text-white p-2 rounded-lg text-xs hover:bg-red-700 transition btn-brand" title="Delete Item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        </div>
+                    </div>
+                </div>`;
+            } else {
+                 cardHtml += `</div></div>`; // Removed 'Click for Details'
+            }
+            
+            return cardHtml;
+        }
+
+        window.initMenu = (isMock = false) => {
+             if (isMock) {
+                allCategories.forEach(cat => {
+                    inventory[cat] = {};
+                    (seedData[cat] || []).forEach(item => {
+                        const itemId = item.id || crypto.randomUUID(); 
+                        inventory[cat][itemId] = { ...item, id: itemId, category: cat, isFeatured: item.isFeatured || false, isSoldOut: item.isSoldOut !== undefined ? item.isSoldOut : false, isLowStock: item.isLowStock || false, isOnSale: item.isOnSale || false };
+                    });
+                });
+                renderCategories();
+                renderControls();
+                renderMenu();
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                     loadingIndicator.textContent = 'Menu loaded (Mock Data)';
+                     setTimeout(() => loadingIndicator.classList.add('hidden'), 500);
+                }
+                return;
+            }
+            
+            renderCategories();
+            renderControls();
+            setupDataListeners();
+        };
+
+    </script>
+</body>
+</html>
