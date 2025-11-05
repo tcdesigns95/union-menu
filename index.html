@@ -427,7 +427,7 @@
                 { id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Must mention code "BOGO50"' },
             ]
         };
-const firebaseConfig = {
+window.firebaseConfig = {
   apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
@@ -437,10 +437,10 @@ const firebaseConfig = {
   measurementId: "G-E6C1E25NLW"
 };
         // Helper to get the correct public collection path
-        function getCollectionPath(category) {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-            return `artifacts/${appId}/public/data/${category}`;
-        }
+       function getCollectionPath(category) {
+    const appId = window.firebaseConfig.appId;
+    return `artifacts/${appId}/public/data/${category}`;
+}
 
         // --- Core Utility Functions (Needed early) ---
 
