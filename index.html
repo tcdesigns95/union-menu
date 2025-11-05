@@ -119,21 +119,21 @@
             </div>
 
             <div id="category-tabs" class="categories-container flex overflow-x-auto border-t border-b border-cream/20 bg-forest/90 sticky top-[68px] md:top-[76px] z-20">
-                </div>
+            </div>
         </header>
 
         <main class="p-4 md:p-6">
             
             <div id="controls-container" class="bg-cream pt-2 pb-4 z-10">
-                </div>
+            </div>
 
             <div id="add-item-container" class="mb-6 hidden">
-                </div>
+            </div>
 
             <div class="text-center text-xl text-sage pt-10" id="loading-indicator">Loading menu data...</div>
 
             <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pt-4">
-                </div>
+            </div>
         </main>
     </div>
 
@@ -156,7 +156,7 @@
             
             <form id="crud-form">
                 <div id="crud-fields-container" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    </div>
+                </div>
                 <div class="flex justify-end space-x-3 mt-8 pt-4 border-t border-sage/50">
                     <button type="button" class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition btn-brand" onclick="hideCrudModal()">Cancel</button>
                     <button type="submit" id="crud-save-btn" class="bg-forest text-cream p-3 rounded-lg font-bold hover:bg-sage transition btn-brand">Save Item</button>
@@ -181,7 +181,7 @@
             <h3 class="text-2xl font-bold mb-4 font-serif">Select Product Category</h3>
             <p class="mb-6 text-sage font-serif">Which type of product are you adding?</p>
             <div id="category-buttons-container" class="grid grid-cols-2 gap-3">
-                </div>
+            </div>
             <div class="mt-6 flex justify-end">
                 <button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideCategorySelectionModal()">Cancel</button>
             </div>
@@ -192,7 +192,7 @@
         <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg text-forest my-8 font-serif">
             <h3 id="detail-modal-title" class="text-3xl font-bold mb-4 border-b pb-2 border-sage/50"></h3>
             <div id="detail-modal-body" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                </div>
+            </div>
             <div class="mt-8 flex justify-end">
                 <button class="bg-sage text-cream p-3 rounded-lg font-bold hover:bg-forest transition btn-brand" onclick="hideItemDetailModal()">Close</button>
             </div>
@@ -259,6 +259,10 @@
                 if(window.showMessage) {
                     window.showMessage("Could not authenticate with database.", true); 
                 }
+                // ******************************************************
+                // ***** THIS IS THE LINE I AM ADDING FOR THE FIX *****
+                // ******************************************************
+                window.initMenu(true); // Load mock data on failure
             }
         }
         
