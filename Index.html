@@ -1,0 +1,1392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Union Dispensary Interactive Menu&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Custom Google Fonts for branding --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Lora:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Load Tailwind CSS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// === Custom Tailwind Configuration for Branding ===</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>theme: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>extend: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>colors: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>cream: '#F8F2E2',<span class="Apple-converted-space">      </span>// Light background</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>sage: '#808A6F', <span class="Apple-converted-space">      </span>// Accent and detail</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>forest: '#22352F', <span class="Apple-converted-space">    </span>// Dark text and primary elements</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>red_sale: '#EF4444', <span class="Apple-converted-space">  </span>// Red color for sold out/featured status</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>orange_low: '#F59E0B', // Orange for low stock</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>sale_blue: '#3B82F6',<span class="Apple-converted-space">  </span>// Blue for Sale status</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>fontFamily: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>script: ['Great Vibes', 'cursive'], // Script font for main title</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>serif: ['Lora', 'serif'], <span class="Apple-converted-space">          </span>// Serif font for body text</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>sans: ['Inter', 'sans-serif'],<span class="Apple-converted-space">      </span>// Fallback sans</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Global Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Lora', serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #808A6F; /* Sage Background */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #22352F; /* Forest Text */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Fix for scrollable categories bar */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.categories-container::-webkit-scrollbar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.categories-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-ms-overflow-style: none; /* IE and Edge */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scrollbar-width: none; /* Firefox */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Custom styles for aesthetic buttons */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-brand {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-brand:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-1px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Style for required form fields */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>label.required::after {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: " *";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #ef4444; /* Red-600 */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Class for sold-out items (Customer View) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.sold-out {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Dim the entire card to show it's inactive/out */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.55;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>filter: grayscale(80%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Ensure click is only blocked in customer mode */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body:not(.admin-mode) .sold-out {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Animation for settings icon in admin mode */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.rotate-90 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: rotate(90deg);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Line clamp for description */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.line-clamp-2 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: -webkit-box;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-box-orient: vertical;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-line-clamp: 2;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Mobile optimization: smaller padding on tabs for smaller screens */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 640px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>#category-tabs button {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>padding: 0.75rem 0.5rem; /* Reduced horizontal padding */</p>
+<p class="p1"><span class="Apple-converted-space">                </span>font-size: 0.875rem; /* text-sm */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.categories-container svg {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>width: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>height: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.modal-content-area {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>max-height: 80vh; /* Allow more space for mobile modal content */</p>
+<p class="p1"><span class="Apple-converted-space">                </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-sage min-h-screen"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Main Container --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="app" class="max-w-7xl mx-auto bg-cream shadow-2xl min-h-screen"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Header and Navigation --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;header class="sticky top-0 z-30 shadow-lg bg-forest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="p-4 flex justify-between items-center text-cream"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Title --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1 class="text-3xl md:text-4xl font-script text-cream"&gt;Union Dispensary&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Edit Toggle Button --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="edit-toggle-btn" class="bg-sage text-cream p-3 rounded-full btn-brand hover:bg-sage/80" onclick="toggleEditMode()" title="Toggle Edit Mode"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg id="settings-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform duration-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.78 1.35a2 2 0 0 0 .72 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15-.09a2 2 0 0 0-.73 2.73l.78 1.35a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.18a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.78-1.35a2 2 0 0 0-.72-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.78-1.35a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;circle cx="12" cy="12" r="3"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Category Tabs --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="category-tabs" class="categories-container flex overflow-x-auto border-t border-b border-cream/20 bg-forest/90 sticky top-[68px] md:top-[76px] z-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Tabs rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Main Content Area --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;main class="p-4 md:p-6"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Admin Controls (Search/Sort) - REMOVED sticky class --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="controls-container" class="bg-cream pt-2 pb-4 z-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Controls rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Add Item Button (Admin Mode) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="add-item-container" class="mb-6 hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Content rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Loading Indicator --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-center text-xl text-sage pt-10" id="loading-indicator"&gt;Loading menu data...&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Product List: UPDATED TO GRID FOR DENSITY --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Product cards rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- === MODALS === --&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Admin PIN Modal --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="pin-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold mb-4 font-serif"&gt;Enter Admin Key&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p id="pin-error" class="text-sm mb-4 text-red_sale font-medium"&gt;&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="password" id="admin-pin-input" onkeydown="handlePinKeydown(event)" class="w-full p-3 mb-4 border-2 border-sage rounded-lg bg-white text-forest placeholder-sage/70 focus:outline-none focus:ring-2 focus:ring-sage font-serif" placeholder="Key: union420"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="flex-1 bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="toggleEditMode(false)"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="flex-1 bg-forest text-cream p-3 rounded-lg font-bold hover:bg-sage transition" onclick="checkAdminKey()"&gt;Unlock Editor&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- CRUD (Create/Edit) Modal --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="crud-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-xl text-forest my-8 font-serif"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 id="crud-modal-title" class="text-3xl font-bold mb-6 border-b pb-3 border-sage/50"&gt;&lt;/h3&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;form id="crud-form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="crud-fields-container" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- Form fields generated by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex justify-end space-x-3 mt-8 pt-4 border-t border-sage/50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button type="button" class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition btn-brand" onclick="hideCrudModal()"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button type="submit" id="crud-save-btn" class="bg-forest text-cream p-3 rounded-lg font-bold hover:bg-sage transition btn-brand"&gt;Save Item&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Delete Confirmation Modal --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="delete-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-md text-forest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold mb-4 font-serif"&gt;Confirm Deletion&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="mb-6 font-serif"&gt;Are you sure you want to delete &lt;span id="delete-item-name" class="font-bold text-red_sale"&gt;&lt;/span&gt;? This action cannot be undone.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-end space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideDeleteModal()"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="bg-red_sale text-white p-3 rounded-lg font-bold hover:bg-red-700 transition btn-brand" onclick="executeDelete()"&gt;Delete Permanently&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Category Selection Modal (for adding items in 'All Products' view) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="category-selection-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold mb-4 font-serif"&gt;Select Product Category&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="mb-6 text-sage font-serif"&gt;Which type of product are you adding?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="category-buttons-container" class="grid grid-cols-2 gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Buttons rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mt-6 flex justify-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideCategorySelectionModal()"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Item Detail / Quick View Modal (Customer View) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="item-detail-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg text-forest my-8 font-serif"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 id="detail-modal-title" class="text-3xl font-bold mb-4 border-b pb-2 border-sage/50"&gt;&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="detail-modal-body" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Details rendered by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mt-8 flex justify-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="bg-sage text-cream p-3 rounded-lg font-bold hover:bg-forest transition btn-brand" onclick="hideItemDetailModal()"&gt;Close&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Global Message/Toast Notification --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="message-box" class="hidden fixed top-24 right-4 bg-forest text-cream p-4 rounded-lg shadow-xl opacity-0 transition-all duration-300 z-50 font-serif min-w-[200px]"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Firebase Imports and Setup --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="module"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, where, getDocs, updateDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// setLogLevel('Debug'); // Uncomment this line to enable verbose Firebase logging</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Global Firebase References (available to the window object)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.db = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.auth = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.userId = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Expose Firebase functions globally for use in the main script block</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.initializeApp = initializeApp;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.getAuth = getAuth;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.signInAnonymously = signInAnonymously;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.signInWithCustomToken = signInWithCustomToken;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.getFirestore = getFirestore;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.collection = collection;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.onSnapshot = onSnapshot;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.doc = doc;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.setDoc = setDoc;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.deleteDoc = deleteDoc;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.query = query;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.where = where;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.getDocs = getDocs;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.updateDoc = updateDoc;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.writeBatch = writeBatch;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Initialization Logic</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (Object.keys(firebaseConfig).length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const app = initializeApp(firebaseConfig);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.db = getFirestore(app);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.auth = getAuth(app);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Firebase initialization failed:", e);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Authentication Function</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function authenticate() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (initialAuthToken) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await window.signInWithCustomToken(window.auth, initialAuthToken);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await window.signInAnonymously(window.auth);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.userId = window.auth.currentUser.uid;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.initMenu();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Firebase Auth error:", error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(window.showMessage) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>window.showMessage("Could not authenticate with database.", true);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Start the application</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (window.db) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>authenticate();</p>
+<p class="p1"><span class="Apple-converted-space">             </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.warn("Firebase not initialized, running in mock mode.");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.initMenu(true); // Run mock mode</p>
+<p class="p1"><span class="Apple-converted-space">             </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Main Application Logic (Exposed to window for event handlers) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// === App State and Configuration ===</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let inventory = {};<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentCategory = 'Flower';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isEditMode = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentItemForEdit = null;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let deleteItemDetails = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentSearchQuery = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentTypeFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentSortBy = 'name';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentSortDirection = 'asc';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentFormatFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentDeviceFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentVolumeFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentRatioFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentPackagingFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentInfusionFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentFormFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentWeightFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentCannabinoidFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Icon mapping for categories (using elegant, simple SVGs)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const categoryIcons = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Flower': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M12 2v20"/&gt;&lt;path d="M17 5H7"/&gt;&lt;path d="M17 19H7"/&gt;&lt;path d="M19 12c0 3.866-3.134 7-7 7s-7-3.134-7-7c0-3.866 3.134-7 7-7s7 3.134 7 7z"/&gt;&lt;/svg&gt;`,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Concentrates': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M16 11V7a4 4 0 0 0-8 0v4"/&gt;&lt;path d="M22 11h-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v-8z"/&gt;&lt;path d="M2 11h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2v-8z"/&gt;&lt;path d="M10 21h4"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Cartridges': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M16 11V7a4 4 0 0 0-8 0v4"/&gt;&lt;path d="M12 21a2 2 0 0 0 2-2v-8a2 2 0 0 0-4 0v8a2 2 0 0 0 2 2z"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Edibles': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/&gt;&lt;path d="M16.2 7.8c-1-1-2.2-1.8-3.6-2.2-1.4-.4-2.8-.2-4.2.6-1.4.8-2.6 2-3.4 3.4-.8 1.4-1 3-1 4.6 0 1.6.4 3.2 1.2 4.6.8 1.4 2 2.6 3.4 3.4 1.4.8 3 .8 4.6.8s3.2-.4 4.6-1.2c1.4-.8 2.6-2 3.4-3.4.8-1.4 1.2-3 1.2-4.6 0-1.6-.4-3.2-1.2-4.6-.8-1.4-2-2.6-3.4-3.4z"/&gt;&lt;path d="M12 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Topicals': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M12 22a7 7 0 0 0-7-7h14a7 7 0 0 0-7 7z"/&gt;&lt;path d="M12 15V3.5A1.5 1.5 0 0 1 13.5 2h0A1.5 1.5 0 0 1 15 3.5v3.5"/&gt;&lt;path d="M12 15V3.5A1.5 1.5 0 0 0 10.5 2h0A1.5 1.5 0 0 0 9 3.5v3.5"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Tinctures': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M7 16V9a3 3 0 0 1 6 0v7"/&gt;&lt;path d="M10 22h4"/&gt;&lt;path d="M10 16a3 3 0 0 1-6 0h12a3 3 0 0 1-6 0z"/&gt;&lt;path d="M10 16h4"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Pre-Rolls': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M18 6H6a4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4v-4a4 4 0 0 0-4-4z"/&gt;&lt;path d="M2 10h4"/&gt;&lt;path d="M22 10h-4"/&gt;&lt;path d="M2 14h4"/&gt;&lt;path d="M22 14h-4"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Specials': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M19.5 12.5c0 1.1-.9 2-2 2s-2-.9-2-2.9.9-2 2-2c1.1 0 2 .9 2 2.9z"/&gt;&lt;path d="M17.5 14.5c0 1.1.9 2 2 2s2-.9 2-2.9-.9-2-2-2c-1.1 0-2 .9-2 2.9z"/&gt;&lt;path d="M12.5 19.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/&gt;&lt;path d="M14.5 17.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/&gt;&lt;path d="M7 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/&gt;&lt;path d="M14 10.042A6.14 6.14 0 0 0 12.503 10a6.16 6.16 0 0 0-1.498.042"/&gt;&lt;path d="M9.958 14A6.14 6.14 0 0 0 10 12.503a6.16 6.16 0 0 0-.042-1.498"/&gt;&lt;path d="M17 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/&gt;&lt;/svg&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'All Products': `&lt;svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/&gt;&lt;path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/&gt;&lt;path d="M4 15h1.5a2.5 2.5 0 0 1 0 5H4"/&gt;&lt;path d="M19.5 15H18a2.5 2.5 0 0 1 0 5h1.5"/&gt;&lt;line x1="12" y1="9" x2="12" y2="15"/&gt;&lt;line x1="9" y1="12" x2="15" y2="12"/&gt;&lt;/svg&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Definitive structure for each category's data fields</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const categoryFields = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Flower': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Strain Name / THC%', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'type', label: 'Type (Indica/Sativa/Hybrid)', type: 'select', options: ['Indica', 'Sativa', 'Hybrid'], required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'grower', label: 'Grower/Brand Name', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'description', label: 'Description (Effect/Notes)', type: 'textarea' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'terpenes', label: 'Key Terpenes (e.g., Myrcene, Linalool)', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price_1g', label: 'Price (1 gram)', type: 'text', required: true, placeholder: '$9 - $12', priceField: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price_35g', label: 'Price (3.5g / Eighth)', type: 'text', required: true, placeholder: '$25 - $40', priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price_7g', label: 'Price (7g / Quarter)', type: 'text', required: false, placeholder: '$50 - $80', priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Concentrates': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Product Name (e.g., Live Resin)', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'format', label: 'Format (Resin/Rosin)', type: 'select', options: ['Live Resin', 'Live Rosin'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'potency', label: 'THC/Potency %', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'description', label: 'Description/Texture', type: 'textarea' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price (per unit)', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Cartridges': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Strain/Flavor', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'format_type', label: 'Content Type (Rosin/Resin)', type: 'select', options: ['Live Rosin', 'Live Resin', 'Distillate', 'Oil'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'volume', label: 'Volume (g)', type: 'select', options: ['0.5g', '1g', '2g'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'device_type', label: 'Device (510/AIO)', type: 'select', options: ['510 Screw On', 'All-In-One'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'potency', label: 'THC/Potency %', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Edibles': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true }, // UPDATED FIELD TYPE</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'dosage', label: 'Total Dosage (e.g., 100mg)', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'flavor', label: 'Flavor/Type', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Topicals': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'form', label: 'Product Form', type: 'select', options: ['Lotion', 'Balm', 'Salt', 'Oil', 'Other'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'size', label: 'Size/Volume', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'cbd_ratio', label: 'CBD:THC Ratio', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Tinctures': [<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'ratio', label: 'Cannabinoid Ratio', type: 'select', options: ['1:1', '5:1 CBD', 'CBD Only', 'THC Only', 'Other'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'potency', label: 'Potency (mg)', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'size', label: 'Size (ml)', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Pre-Rolls': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Strain Name', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'weight', label: 'Weight (g)', type: 'select', options: ['0.5g', '1g', '1.5g', 'Other'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'packaging', label: 'Packaging', type: 'select', options: ['Singles', 'Packs', 'Other'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'infused', label: 'Infused?', type: 'select', options: ['No', 'Yes'], required: true, sortable: true },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'potency', label: 'Potency/Notes', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Specials': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'name', label: 'Special Name (e.g., BOGO Deal)', type: 'text', required: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'category_target', label: 'Target Category (e.g., Edibles)', type: 'text' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'description', label: 'Full Deal Details', type: 'textarea', required: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'price', label: 'New Price/Discount', type: 'text', required: true, priceField: true, sortable: true },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const allCategories = Object.keys(categoryFields);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const navCategories = ['All Products', 'Specials', ...allCategories.filter(c =&gt; c !== 'Specials')]; // Specials first</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// === Firebase &amp; Data Functions ===</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Seed data for initial population if a collection is empty</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const seedData = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Flower': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed1', name: 'Northern Lights (21% THC)', type: 'Indica', grower: 'Union Growers', description: 'Deeply relaxing, perfect for sleep.', terpenes: 'Myrcene, Caryophyllene', price_1g: '$10', price_35g: '$35', price_7g: '$65', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: 'Great for beginners.' },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed2', name: 'Sour Diesel (26% THC)', type: 'Sativa', grower: 'Pacific Organics', description: 'Energetic and euphoric, great for daytime use.', terpenes: 'Limonene, Caryophyllene', price_1g: '$12', price_35g: '$40', price_7g: '$80', isFeatured: false, isSoldOut: false, isLowStock: true, isOnSale: false, staffNotes: '' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed3', name: 'GSC (23% THC)', type: 'Hybrid', grower: 'Harmony Farms', description: 'Balanced effects, body relaxation with mental uplift.', terpenes: 'Linalool, Pinene', price_1g: '$9', price_35g: '$30', price_7g: '$55', isFeatured: false, isSoldOut: true, isLowStock: false, isOnSale: true, staffNotes: '' }, // Sold Out, but marked as Sale for test</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Concentrates': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed4', name: 'Blue Dream Live Resin', brand: 'Extraction Co.', type: 'Hybrid', format: 'Live Resin', potency: '75%', description: 'Sweet berry flavor, smooth texture.', price: '$40/gram', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Cartridges': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed6', name: 'Strawberry Banana', brand: 'Vape King', type: 'Hybrid', format_type: 'Distillate', volume: '1g', device_type: '510 Screw On', potency: '85%', price: '$55', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Old batch, push this sale item.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed7_cart', name: 'Pineapple Express Live Resin', brand: 'Resin Pens', type: 'Sativa', format_type: 'Live Resin', volume: '0.5g', device_type: 'All-In-One', potency: '90%', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Edibles': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed8', name: 'Blueberry Gummies', brand: 'Chew Factory', type: 'Hybrid', cannabinoids: 'CBD', dosage: '100mg', flavor: 'Blueberry', price: '$22', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' }, // ADDED CANNABINOIDS</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed9_edible', name: 'Sativa Fruit Chews', brand: 'Gummy Goodness', type: 'Sativa', cannabinoids: 'CBG', dosage: '50mg', flavor: 'Mango', price: '$18', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Topicals': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed9', name: 'CBD Relief Balm', brand: 'Wellness Co.', form: 'Balm', size: '4oz', cbd_ratio: '1:0 (1000mg CBD)', price: '$45', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Tinctures': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed10', name: 'Sleep Formula Drops', brand: 'Herbal Solutions', ratio: '1:1', potency: '500mg', size: '30ml', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Pre-Rolls': [</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>{ id: 'seed11', name: 'Wedding Cake Single', type: 'Hybrid', weight: '1g', packaging: 'Singles', infused: 'No', potency: '28% THC', price: '$12', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Specials': [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Must mention code "BOGO50"' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Helper to get the correct public collection path</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getCollectionPath(category) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return `artifacts/${appId}/public/data/${category}`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Core Utility Functions (Needed early) ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Simple message display instead of alert</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.showMessage = (text, isError = false) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let messageBox = document.getElementById('message-box');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!messageBox) return;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>messageBox.style.backgroundColor = isError ? '#dc2626' : '#22352F';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>messageBox.textContent = text;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>messageBox.classList.remove('hidden', 'opacity-0');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>messageBox.classList.add('opacity-100');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>messageBox.classList.remove('opacity-100');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>messageBox.classList.add('opacity-0');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; messageBox.classList.add('hidden'), 300);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 3000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Function to extract price for sorting</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function extractPrice(priceStr) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const match = priceStr ? String(priceStr).match(/(\d+\.?\d*)/) : null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return match ? parseFloat(match[1]) : (currentSortDirection === 'asc' ? Infinity : -Infinity);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Firebase Data and CRUD Operations ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function seedCollection(category) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!window.db || !seedData[category] || Object.keys(inventory[category]).length &gt; 0) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const batch = window.writeBatch(window.db);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const path = getCollectionPath(category);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const itemsToSeed = seedData[category];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>itemsToSeed.forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const docRef = window.doc(window.db, path, item.id);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>batch.set(docRef, { ...item, category: category });<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>await batch.commit();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.log(`Seeded ${category} collection.`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error(`Seeding ${category} failed:`, e);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function setupDataListeners() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>allCategories.forEach(category =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const path = getCollectionPath(category);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const q = window.query(window.collection(window.db, path));</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.onSnapshot(q, (snapshot) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const itemsMap = {};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>snapshot.forEach(doc =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const data = doc.data();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>itemsMap[doc.id] = {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>id: doc.id,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>...data,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>category: category,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>isFeatured: !!data.isFeatured,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>isSoldOut: data.isSoldOut !== undefined ? !!data.isSoldOut : false,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>isLowStock: data.isLowStock !== undefined ? !!data.isLowStock : false,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>isOnSale: data.isOnSale !== undefined ? !!data.isOnSale : false<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>inventory[category] = itemsMap;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>seedCollection(category);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>renderMenu();</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const loadingIndicator = document.getElementById('loading-indicator');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (loadingIndicator) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>loadingIndicator.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, (error) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.error(`Error listening to Firestore for ${category}:`, error);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const loadingIndicator = document.getElementById('loading-indicator');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (loadingIndicator) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>loadingIndicator.textContent = `Error loading menu. Please refresh.`;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>loadingIndicator.classList.add('text-red_sale');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function saveItem(formData, isEdit, itemId) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!window.db) { showMessage("Cannot save: Database connection is not active.", true); return; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const category = formData.category;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const path = getCollectionPath(category);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const collectionRef = window.collection(window.db, path);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>formData.isFeatured = formData.isFeatured === 'on';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>formData.isSoldOut = formData.isSoldOut === 'on';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>formData.isLowStock = formData.isLowStock === 'on';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>formData.isOnSale = formData.isOnSale === 'on';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>delete formData.category;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>delete formData.id;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>formData.updatedAt = new Date().toISOString();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (isEdit &amp;&amp; itemId) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await window.setDoc(window.doc(collectionRef, itemId), formData, { merge: true });</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>showMessage('Item updated successfully!');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const newItemRef = window.doc(collectionRef);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await window.setDoc(newItemRef, {...formData, category: category });<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>showMessage('New item added successfully!');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Error saving document: ", e);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showMessage(`Error saving: ${e.message}`, true);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>hideCrudModal();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function executeDelete() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!window.db) { showMessage("Cannot delete: Database connection is not active.", true); hideDeleteModal(); return; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!deleteItemDetails) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const { id, category } = deleteItemDetails;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const path = getCollectionPath(category);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>await window.deleteDoc(window.doc(window.db, path, id));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showMessage(`Deleted item: ${deleteItemDetails.name}`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Error deleting document: ", e);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showMessage(`Error deleting: ${e.message}`, true);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>hideDeleteModal();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- UI/Modal Logic (Requires other functions defined) ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Fix: Make handlePinKeydown global so it can be accessed from HTML inline attribute</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handlePinKeydown = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (event.key === 'Enter') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>event.preventDefault();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.checkAdminKey();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Toggle Edit Mode (requires key check)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.toggleEditMode = (forceShow = null) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const toggleBtn = document.getElementById('edit-toggle-btn');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const icon = document.getElementById('settings-icon');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addItemContainer = document.getElementById('add-item-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const body = document.body;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (forceShow === false) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEditMode = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>body.classList.remove('admin-mode');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pin-modal').classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>toggleBtn.classList.remove('bg-red_sale', 'hover:bg-red-700');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>toggleBtn.classList.add('bg-sage', 'hover:bg-sage/80');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>icon.classList.remove('rotate-90');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>addItemContainer.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderMenu();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isEditMode) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pin-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('admin-pin-input').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pin-error').textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('admin-pin-input').focus();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>toggleEditMode(false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.checkAdminKey = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const input = document.getElementById('admin-pin-input');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (input.value === 'union420') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEditMode = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.body.classList.add('admin-mode');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pin-modal').classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const toggleBtn = document.getElementById('edit-toggle-btn');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>toggleBtn.classList.remove('bg-sage', 'hover:bg-sage/80');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>toggleBtn.classList.add('bg-red_sale', 'hover:bg-red-700');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('settings-icon').classList.add('rotate-90');<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('add-item-container').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>changeCategory(currentCategory);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pin-error').textContent = 'Invalid Admin Key.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>input.value = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.showCrudModal = (itemId = null, categoryOverride = null) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let item = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let category = categoryOverride || currentCategory;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (itemId) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (const cat of allCategories) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (inventory[cat] &amp;&amp; inventory[cat][itemId]) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>item = inventory[cat][itemId];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>category = cat;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!item) { showMessage("Error: Item data could not be loaded for editing.", true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const modalTitle = document.getElementById('crud-modal-title');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const fieldsContainer = document.getElementById('crud-fields-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const form = document.getElementById('crud-form');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const saveBtn = document.getElementById('crud-save-btn');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>modalTitle.textContent = item ? `Edit ${item.name}` : `Add New ${category} Item`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>saveBtn.textContent = item ? 'Update Item' : 'Create Item';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fieldsContainer.innerHTML = '';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>fieldsContainer.innerHTML += `&lt;input type="hidden" name="category" value="${category}"&gt;&lt;input type="hidden" name="id" value="${item ? item.id : ''}"&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Status Checkboxes</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const isSoldOut = item ? (item.isSoldOut === true) : false;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const isLowStock = item ? (item.isLowStock === true) : false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const isOnSale = item ? (item.isOnSale === true) : false;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>fieldsContainer.innerHTML += `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-sage/10 rounded-xl shadow-inner border border-sage/20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="isFeatured" class="flex items-center space-x-3 cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="isFeatured" name="isFeatured" class="h-5 w-5 text-red_sale rounded border-sage/50 focus:ring-red_sale" ${item?.isFeatured ? 'checked' : ''}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-base font-bold text-forest"&gt;Mark as FEATURED&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="isOnSale" class="flex items-center space-x-3 cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="isOnSale" name="isOnSale" class="h-5 w-5 text-sale_blue rounded border-sage/50 focus:ring-sale_blue" ${isOnSale ? 'checked' : ''}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-base font-bold text-forest"&gt;Mark as ON SALE&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="isLowStock" class="flex items-center space-x-3 cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="isLowStock" name="isLowStock" class="h-5 w-5 text-orange_low rounded border-sage/50 focus:ring-orange_low" ${isLowStock ? 'checked' : ''}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-base font-bold text-forest"&gt;Mark as LOW STOCK&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="isSoldOut" class="flex items-center space-x-3 cursor-pointer sm:col-span-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="isSoldOut" name="isSoldOut" class="h-5 w-5 text-red_sale rounded border-sage/50 focus:ring-red_sale" ${isSoldOut ? 'checked' : ''}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-base font-bold text-forest"&gt;Sold Out (Check if OOS)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Dynamic Fields Generation</p>
+<p class="p1"><span class="Apple-converted-space">            </span>categoryFields[category].forEach(field =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Skip the staffNotes field here, it's added separately</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (field.id === 'staffNotes') return;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let inputHtml = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let currentValue = item &amp;&amp; item[field.id] !== undefined ? item[field.id] : '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (field.type === 'textarea') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>inputHtml = `&lt;textarea id="${field.id}" name="${field.id}" rows="3" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="${field.placeholder || field.label}" ${field.required ? 'required' : ''}&gt;${currentValue}&lt;/textarea&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (field.type === 'select') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>let options = field.options.map(opt =&gt; `&lt;option value="${opt}" ${currentValue === opt ? 'selected' : ''}&gt;${opt}&lt;/option&gt;`).join('');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>inputHtml = `&lt;select id="${field.id}" name="${field.id}" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" ${field.required ? 'required' : ''}&gt;${options}&lt;/select&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>inputHtml = `&lt;input type="${field.type}" id="${field.id}" name="${field.id}" value="${currentValue}" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="${field.placeholder || field.label}" ${field.required ? 'required' : ''}&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>fieldsContainer.innerHTML += `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="${field.id}" class="block text-sm font-bold mb-2 text-forest ${field.required ? 'required' : ''}"&gt;${field.label}&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${inputHtml}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Staff Notes (Added only once at the bottom)</p>
+<p class="p1"><span class="Apple-converted-space">             </span>fieldsContainer.innerHTML += `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mb-4 pt-4 border-t border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="staffNotes" class="block text-sm font-bold mb-2 text-forest"&gt;Internal Staff Notes (Admin Only)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea id="staffNotes" name="staffNotes" rows="3" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="e.g., Push this, Low margin, Great cross-sell item."&gt;${item?.staffNotes || ''}&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>form.onsubmit = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const formData = {};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>new FormData(form).forEach((value, key) =&gt; { formData[key] = value.trim(); });</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const idToSave = form.querySelector('input[name="id"]').value || null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const isEditing = !!idToSave;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>saveItem(formData, isEditing, idToSave);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('crud-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.hideCrudModal = () =&gt; { document.getElementById('crud-modal').classList.add('hidden'); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.hideItemDetailModal = () =&gt; { document.getElementById('item-detail-modal').classList.add('hidden'); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.showDeleteModal = (itemId) =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (const cat of allCategories) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (inventory[cat] &amp;&amp; inventory[cat][itemId]) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>deleteItemDetails = inventory[cat][itemId];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!deleteItemDetails) { showMessage("Error: Could not find item to delete.", true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('delete-item-name').textContent = deleteItemDetails.name;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('delete-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.hideDeleteModal = () =&gt; { document.getElementById('delete-modal').classList.add('hidden'); deleteItemDetails = null; };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.showCategorySelectionModal = () =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('category-buttons-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.innerHTML = allCategories.map(category =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button onclick="hideCategorySelectionModal(); showCrudModal(null, '${category}')" class="bg-sage text-cream p-4 rounded-lg font-bold hover:bg-forest transition btn-brand"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${category}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`).join('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('category-selection-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.hideCategorySelectionModal = () =&gt; { document.getElementById('category-selection-modal').classList.add('hidden'); };</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.showItemDetailModal = (itemId) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let item = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// FIX: Check if isEditMode is true, if so, allow modal to open for admin</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEditMode) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (const cat of allCategories) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (inventory[cat] &amp;&amp; inventory[cat][itemId]) { item = inventory[cat][itemId]; break; }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Original customer view logic</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (const cat of allCategories) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (inventory[cat] &amp;&amp; inventory[cat][itemId]) { item = inventory[cat][itemId]; break; }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!item) { showMessage("Error: Product details not found.", true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!item) { showMessage("Error: Product details not found.", true); return; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const modalTitle = document.getElementById('detail-modal-title');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const modalBody = document.getElementById('detail-modal-body');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>modalTitle.textContent = item.name;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let html = `&lt;p class="text-sm font-semibold text-sage/90 mb-4"&gt;${item.category.toUpperCase()} | ${item.brand || item.grower || ''}&lt;/p&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Dynamic Price Display</p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `&lt;div class="p-4 bg-sage/10 rounded-lg space-y-2 border border-sage/20"&gt;&lt;h4 class="text-lg font-bold text-forest"&gt;Pricing Options&lt;/h4&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (item.category === 'Flower') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (item.price_1g) html += `&lt;p class="flex justify-between font-medium"&gt;&lt;span&gt;1 gram:&lt;/span&gt; &lt;span class="text-xl font-bold ${item.isFeatured ? 'text-red_sale' : 'text-forest'}"&gt;${item.price_1g}&lt;/span&gt;&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (item.price_35g) html += `&lt;p class="flex justify-between font-medium"&gt;&lt;span&gt;3.5 grams (Eighth):&lt;/span&gt; &lt;span class="text-lg font-semibold"&gt;${item.price_35g}&lt;/span&gt;&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (item.price_7g) html += `&lt;p class="flex justify-between font-medium"&gt;&lt;span&gt;7 grams (Quarter):&lt;/span&gt; &lt;span class="text-lg font-semibold"&gt;${item.price_7g}&lt;/span&gt;&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>html += `&lt;p class="flex justify-between font-medium"&gt;&lt;span&gt;Unit Price:&lt;/span&gt; &lt;span class="text-xl font-bold ${item.isFeatured ? 'text-red_sale' : 'text-forest'}"&gt;${item.price || 'N/A'}&lt;/span&gt;&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `&lt;/div&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Full Details</p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `&lt;div class="mt-6 space-y-3"&gt;&lt;h4 class="text-lg font-bold text-forest border-b border-sage/30 pb-1"&gt;Product Details&lt;/h4&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (item.description) { html += `&lt;p class="text-base"&gt;${item.description}&lt;/p&gt;`; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const detailFields = categoryFields[item.category].filter(f =&gt; !['name', 'description', 'price', 'price_1g', 'price_35g', 'price_7g', 'staffNotes'].includes(f.id));</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>detailFields.forEach(field =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (item[field.id]) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;p class="text-sm"&gt;&lt;span class="font-semibold text-forest/80"&gt;${field.label.split('(')[0].trim()}:&lt;/span&gt; ${item[field.id]}&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `&lt;/div&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- NEW: Internal Staff Notes (ADMIN ONLY) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEditMode &amp;&amp; item.staffNotes) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mt-6 p-4 bg-red-100 border border-red_sale rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h4 class="text-lg font-bold text-red_sale"&gt;Internal Staff Notes&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-forest text-base whitespace-pre-wrap"&gt;${item.staffNotes}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('detail-modal-body').innerHTML = html;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('item-detail-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.changeCategory = (category) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentCategory = category;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const supportsTypeFilter = ['All Products', 'Flower', 'Cartridges', 'Concentrates', 'Pre-Rolls', 'Edibles'].includes(category);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!supportsTypeFilter) { currentTypeFilter = 'All'; }</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Reset ALL specific filters when changing categories</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentFormatFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentDeviceFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentVolumeFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentRatioFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentPackagingFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentInfusionFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentFormFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentWeightFilter = 'All';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentCannabinoidFilter = 'All';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addItemContainer = document.getElementById('add-item-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEditMode) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const clickAction = (currentCategory === 'All Products') ? 'showCategorySelectionModal()' : `showCrudModal(null, '${currentCategory}')`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const buttonText = (currentCategory === 'All Products') ? '+ Add New Product' : `+ Add New ${currentCategory} Item`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>addItemContainer.innerHTML = `&lt;button onclick="${clickAction}" class="w-full bg-forest text-cream p-3 rounded-xl font-bold hover:bg-sage transition btn-brand text-lg"&gt;${buttonText}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>addItemContainer.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>addItemContainer.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCategories();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderControls();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderMenu();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Search, Filter &amp; Sort Functions ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleSearch = (event) =&gt; { currentSearchQuery = event.target.value.toLowerCase().trim(); renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleTypeFilter = (type) =&gt; { currentTypeFilter = type; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleFormatFilter = (format) =&gt; { currentFormatFilter = format; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleDeviceFilter = (device) =&gt; { currentDeviceFilter = device; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleVolumeFilter = (volume) =&gt; { currentVolumeFilter = volume; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleRatioFilter = (ratio) =&gt; { currentRatioFilter = ratio; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleFormFilter = (form) =&gt; { currentFormFilter = form; renderControls(); renderMenu(); };<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleWeightFilter = (weight) =&gt; { currentWeightFilter = weight; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handlePackagingFilter = (packaging) =&gt; { currentPackagingFilter = packaging; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleInfusionFilter = (infused) =&gt; { currentInfusionFilter = infused; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleCannabinoidFilter = (cannabinoid) =&gt; { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); };<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleSortChange = (event) =&gt; { currentSortBy = event.target.value; renderControls(); renderMenu(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.handleSortDirection = (direction) =&gt; { currentSortDirection = direction; renderControls(); renderMenu(); };</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- RENDER CONTROLS ---</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderControls() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const controlsContainer = document.getElementById('controls-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const searchPlaceholder = currentCategory === 'All Products' ? 'Search all products...' : `Search in ${currentCategory}...`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Start of controls HTML</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let html = `&lt;div class="mb-2"&gt;&lt;input type="text" id="search-input" oninput="handleSearch(event)" value="${currentSearchQuery}" class="w-full p-2 border-2 border-sage rounded-xl bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage placeholder-sage/70 font-serif text-sm" placeholder="${searchPlaceholder}"&gt;&lt;/div&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Type Filter Bar (Indica/Sativa/Hybrid) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const typeFilters = ['All Types', 'Indica', 'Sativa', 'Hybrid'];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const supportsTypeFilter = ['All Products', 'Flower', 'Cartridges', 'Concentrates', 'Pre-Rolls', 'Edibles'].includes(currentCategory);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (supportsTypeFilter) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Type:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>typeFilters.forEach(type =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = type === 'All Types' ? 'All' : type;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentTypeFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleTypeFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${type}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Edibles Cannabinoid Filter Bar (CBD / CBC / CBG / CBN) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Edibles') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const cannabinoidFilters = ['All Cannabinoids', 'THC', 'CBD', 'CBG', 'CBN', 'CBC'];</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                             </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Cannabinoid Focus:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                             </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                 </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>cannabinoidFilters.forEach(cb =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>const filterValue = cb === 'All Cannabinoids' ? 'All' : cb;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>const isActive = currentCannabinoidFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                     </span></p>
+<p class="p1"><span class="Apple-converted-space">                     </span>html += `&lt;button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${cb}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Concentrates Format Filter Bar (Live Rosin / Live Resin) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Concentrates') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const formatFilters = ['All Formats', 'Live Resin', 'Live Rosin'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Concentrate Format:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>formatFilters.forEach(format =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = format === 'All Formats' ? 'All' : format;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentFormatFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleFormatFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${format}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Tinctures Ratio Filter Bar ---</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (currentCategory === 'Tinctures') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const ratioFilters = ['All Ratios', '1:1', '5:1 CBD', 'CBD Only', 'THC Only'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Cannabinoid Ratio:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>ratioFilters.forEach(ratio =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = ratio === 'All Ratios' ? 'All' : ratio;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentRatioFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleRatioFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${ratio}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Topicals Form Filter Bar ---</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (currentCategory === 'Topicals') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const formFilters = ['All Forms', 'Lotion', 'Balm', 'Salt', 'Oil'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Product Form:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>formFilters.forEach(form =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = form === 'All Forms' ? 'All' : form;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentFormFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleFormFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${form}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Cartridges Filters (Format, Size, Device) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Cartridges') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 1. Content/Format Filter (Live Rosin / Live Resin)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const cartFormatFilters = ['All Contents', 'Live Rosin', 'Live Resin', 'Distillate', 'Oil'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Content:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>cartFormatFilters.forEach(format =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = format === 'All Contents' ? 'All' : format;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentFormatFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleFormatFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${format}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 2. Volume/Size Filter (0.5g / 1g / 2g)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const volumeFilters = ['All Volumes', '0.5g', '1g', '2g'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Volume:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>volumeFilters.forEach(volume =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = volume === 'All Volumes' ? 'All' : volume;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentVolumeFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleVolumeFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${volume}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 3. Device Type Filter (510 / AIO)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const deviceFilters = ['All Devices', '510 Screw On', 'All-In-One'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Device Type:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>deviceFilters.forEach(device =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = device === 'All Devices' ? 'All' : device;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentDeviceFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleDeviceFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${device}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Pre-Rolls Filters (Weight, Packaging, Infusion) ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Pre-Rolls') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 1. Weight Filter (0.5g / 1g / 1.5g)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const weightFilters = ['All Weights', '0.5g', '1g', '1.5g'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Weight:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>weightFilters.forEach(weight =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = weight === 'All Weights' ? 'All' : weight;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isActive = currentWeightFilter === filterValue;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="handleWeightFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${weight}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 2. Packaging/Infusion Filter (Packs / Singles / Infused)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const packInfusionFilters = ['All Packaging', 'Singles', 'Packs', 'Infused', 'Non-Infused'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="text-xs font-bold text-forest mb-1 block"&gt;Filter by Packaging/Infusion:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex flex-wrap gap-2"&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>packInfusionFilters.forEach(filter =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const filterValue = filter === 'All Packaging' ? 'All' : filter;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>let isActive = false;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>let handler = '';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (filter === 'Singles' || filter === 'Packs') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>isActive = currentPackagingFilter === filter;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>handler = `currentPackagingFilter = '${filterValue}'; currentInfusionFilter = 'All'`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (filter === 'Infused') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>isActive = currentInfusionFilter === 'Yes';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>handler = `currentInfusionFilter = 'Yes'; currentPackagingFilter = 'All'`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (filter === 'Non-Infused') {</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>isActive = currentInfusionFilter === 'No';</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>handler = `currentInfusionFilter = 'No'; currentPackagingFilter = 'All'`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else { // All Packaging</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>isActive = currentPackagingFilter === 'All' &amp;&amp; currentInfusionFilter === 'All';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>handler = `currentPackagingFilter = 'All'; currentInfusionFilter = 'All'`;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// FIX: Simplified ALL button logic slightly for clean click handler</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>html += `&lt;button onclick="${handler}; renderControls(); renderMenu();" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}"&gt;${filter}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html += `&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Sort Controls ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let sortOptions = [{ value: 'name', label: 'Name' }];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const fields = categoryFields[currentCategory] || [];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>fields.forEach(f =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(f.sortable &amp;&amp; f.id !== 'name') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// FIX: If Flower, add only one consolidated Price option</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (currentCategory === 'Flower' &amp;&amp; f.id.startsWith('price_')) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (f.id === 'price_1g') {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>sortOptions.push({ value: 'price_1g', label: 'Price (1g Base)' });</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>sortOptions.push({ value: f.id, label: f.label.split('(')[0].trim() });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Consolidate All Products Sort Options</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'All Products' || currentCategory === 'Specials') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>sortOptions = [{ value: 'name', label: 'Name' }, { value: 'price', label: 'Price (Default)' }, { value: 'type', label: 'Type' }];</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if(!['name', 'price', 'type'].includes(currentSortBy)) { currentSortBy = 'name'; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (currentCategory !== 'Flower') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>sortOptions = sortOptions.filter(opt =&gt; !opt.value.startsWith('price_'));</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (!sortOptions.some(opt =&gt; opt.value === 'price')) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>sortOptions.push({ value: 'price', label: 'Price' });</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex items-center space-x-2 w-full sm:w-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="sort-by" class="text-xs font-bold text-forest whitespace-nowrap"&gt;Sort By:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;select id="sort-by" onchange="handleSortChange(event)" class="p-1.5 border border-sage/50 rounded-lg bg-white text-forest text-xs w-full font-serif"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>sortOptions.forEach(opt =&gt; { html += `&lt;option value="${opt.value}" ${currentSortBy === opt.value ? 'selected' : ''}&gt;${opt.label}&lt;/option&gt;`; });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>html += `&lt;/select&gt;&lt;/div&gt;&lt;div class="flex space-x-2 w-full sm:w-auto justify-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="flex items-center space-x-1 p-1.5 rounded-lg text-xs transition btn-brand w-1/2 sm:w-auto ${currentSortDirection === 'asc' ? 'bg-forest text-cream' : 'bg-gray-200 text-forest hover:bg-gray-300'}" onclick="handleSortDirection('asc')" title="Sort Ascending"&gt;A-Z / Low &lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;line x1="12" y1="5" x2="12" y2="19"&gt;&lt;/line&gt;&lt;polyline points="19 12 12 19 5 12"&gt;&lt;/polyline&gt;&lt;/svg&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="flex items-center space-x-1 p-1.5 rounded-lg text-xs transition btn-brand w-1/2 sm:w-auto ${currentSortDirection === 'desc' ? 'bg-forest text-cream' : 'bg-gray-200 text-forest hover:bg-gray-300'}" onclick="handleSortDirection('desc')" title="Sort Descending"&gt;Z-A / High &lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;line x1="12" y1="19" x2="12" y2="5"&gt;&lt;/line&gt;&lt;polyline points="5 12 12 5 19 12"&gt;&lt;/polyline&gt;&lt;/svg&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>controlsContainer.innerHTML = html;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (document.getElementById('search-input')) { document.getElementById('search-input').value = currentSearchQuery; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (document.getElementById('sort-by')) { document.getElementById('sort-by').value = currentSortBy; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderCategories() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tabsContainer = document.getElementById('category-tabs');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>tabsContainer.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>navCategories.forEach(category =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const isActive = currentCategory === category;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const button = document.createElement('button');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>button.onclick = () =&gt; window.changeCategory(category);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const iconHtml = categoryIcons[category] || '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const activeClasses = 'bg-sage text-cream border-b-4 border-cream';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const inactiveClasses = 'text-cream/70 hover:text-cream/90 hover:bg-forest/70 transition';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// FIX: Added flex-grow and flex-shrink to distribute width evenly</p>
+<p class="p1"><span class="Apple-converted-space">                </span>button.innerHTML = `&lt;span class="flex items-center space-x-1 sm:space-x-2"&gt;${iconHtml}&lt;span&gt;${category}&lt;/span&gt;&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>button.className = `p-3 sm:p-4 flex-grow flex-shrink-0 text-xs sm:text-base font-bold ${isActive ? activeClasses : inactiveClasses} whitespace-nowrap`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tabsContainer.appendChild(button);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderMenu() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const productList = document.getElementById('product-list');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let itemsToDisplay = [];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'All Products') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (const cat in inventory) { for (const id in inventory[cat]) { itemsToDisplay.push(inventory[cat][id]); } }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (currentCategory === 'Specials') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>itemsToDisplay = [];</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>for (const cat in inventory) {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>for (const id in inventory[cat]) {</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>const item = inventory[cat][id];</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>if (item.category === 'Specials' || (item.isFeatured &amp;&amp; item.category !== 'Specials') || (item.isOnSale &amp;&amp; item.category !== 'Specials')) {</p>
+<p class="p1"><span class="Apple-converted-space">                             </span>itemsToDisplay.push(item);</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>itemsToDisplay = itemsToDisplay.filter((value, index, self) =&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>index === self.findIndex((t) =&gt; (t.id === value.id &amp;&amp; t.category === value.category))</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (inventory[currentCategory]) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itemsToDisplay = Object.values(inventory[currentCategory]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentSearchQuery.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; Object.values(item).some(value =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>typeof value === 'string' &amp;&amp; value.toLowerCase().includes(currentSearchQuery)));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- FILTERING LOGIC ---</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 1. Type Filter (Universal for Flower, Concentrates, Cartridges, Pre-Rolls, Edibles)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentTypeFilter !== 'All') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; item.type &amp;&amp; item.type === currentTypeFilter);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 2. Concentrates Format Filter (Live Resin / Live Rosin)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Concentrates' &amp;&amp; currentFormatFilter !== 'All') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; item.format &amp;&amp; item.format === currentFormatFilter);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 3. Topicals Form Filter (Lotions / Balms / Salts / Oils)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Topicals' &amp;&amp; currentFormFilter !== 'All') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; item.form &amp;&amp; item.form === currentFormFilter);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 4. Tinctures Ratio Filter</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Tinctures' &amp;&amp; currentRatioFilter !== 'All') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; item.ratio &amp;&amp; item.ratio === currentRatioFilter);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 5. Edibles Cannabinoid Filter (NEW)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Edibles' &amp;&amp; currentCannabinoidFilter !== 'All') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>itemsToDisplay = itemsToDisplay.filter(item =&gt; item.cannabinoids &amp;&amp; item.cannabinoids.includes(currentCannabinoidFilter));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Cartridges Filters</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Cartridges') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentFormatFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.format_type &amp;&amp; item.format_type === currentFormatFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentDeviceFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.device_type &amp;&amp; item.device_type === currentDeviceFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentVolumeFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.volume &amp;&amp; item.volume === currentVolumeFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Pre-Rolls Filters</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentCategory === 'Pre-Rolls') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentWeightFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.weight &amp;&amp; item.weight === currentWeightFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentPackagingFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.packaging &amp;&amp; item.packaging === currentPackagingFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentInfusionFilter !== 'All') { itemsToDisplay = itemsToDisplay.filter(item =&gt; item.infused &amp;&amp; item.infused === currentInfusionFilter); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- END FILTERING LOGIC ---</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Sorting Logic</p>
+<p class="p1"><span class="Apple-converted-space">            </span>itemsToDisplay.sort((a, b) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const featuredCompare = (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (featuredCompare !== 0) return featuredCompare;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const soldOutCompare = (a.isSoldOut ? 1 : 0) - (b.isSoldOut ? 1 : 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (soldOutCompare !== 0) return soldOutCompare;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let aValue = a[currentSortBy] || '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let bValue = b[currentSortBy] || '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let comparison = 0;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let sortKey = currentSortBy;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const priceFields = ['price_1g', 'price_35g', 'price_7g', 'price'];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (priceFields.includes(sortKey) || ((currentCategory === 'All Products' || currentCategory === 'Specials') &amp;&amp; currentSortBy === 'price')) {</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if ((currentCategory === 'All Products' || currentCategory === 'Specials') &amp;&amp; currentSortBy === 'price') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>aValue = a.price_1g || a.price; // Use 1g price as base in All Products</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>bValue = b.price_1g || b.price;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (currentCategory === 'Flower' &amp;&amp; currentSortBy === 'price_1g') { // Specific Flower Price Sort Fix</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>aValue = a.price_1g;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>bValue = b.price_1g;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const numericA = extractPrice(aValue);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const numericB = extractPrice(bValue);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>comparison = numericA - numericB;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>comparison = String(aValue).localeCompare(String(bValue), undefined, { numeric: true });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>return currentSortDirection === 'asc' ? comparison : -comparison;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Render HTML</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (itemsToDisplay.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let message = `No items available in the ${currentCategory} category.`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentCategory === 'Specials') { message = `No specials are currently active.`; }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>else if (currentSearchQuery.length &gt; 0) { message = `No products found matching "${currentSearchQuery}".`; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>else if (currentTypeFilter !== 'All') { message = `No ${currentTypeFilter} products found in this category.`; }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Add specific filter error messages if needed here</p>
+<p class="p1"><span class="Apple-converted-space">                </span>productList.innerHTML = `&lt;div class="col-span-full text-center text-xl text-sage pt-10 font-serif"&gt;${message}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>productList.innerHTML = itemsToDisplay.map(renderProductCard).join('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Final function definitions and Initialization logic</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderProductCard(item) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const isFlower = item.category === 'Flower';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const priceColorClass = item.isFeatured ? 'text-red_sale' : 'text-forest';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let priceHtml = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isFlower) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Flower: Display 1g and 3.5g price side-by-side</p>
+<p class="p1"><span class="Apple-converted-space">                </span>priceHtml = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex flex-col space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-xl font-bold ${priceColorClass}"&gt;${item.price_1g || 'N/A'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-xs text-sage/90"&gt;${item.price_35g || 'N/A'} / 3.5g&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Other: Display unit price</p>
+<p class="p1"><span class="Apple-converted-space">                </span>priceHtml = `&lt;span class="text-xl font-bold ${priceColorClass}"&gt;${item.price || 'N/A'}&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const soldOutBadge = item.isSoldOut ? `&lt;div class="absolute inset-0 bg-forest/80 flex items-center justify-center rounded-xl pointer-events-none z-10"&gt;&lt;span class="text-xl md:text-2xl font-bold text-cream bg-red_sale/90 p-2 md:p-3 shadow-2xl transform -rotate-6 rounded-xl whitespace-nowrap"&gt;SOLD OUT&lt;/span&gt;&lt;/div&gt;` : '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const featuredBanner = item.isFeatured ? `&lt;div class="bg-red_sale text-cream text-center text-xs font-bold py-1 uppercase tracking-wider"&gt;⭐ FEATURED PRODUCT&lt;/div&gt;` : '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// NEW: Low Stock and Sale Badges (Priority: Sale &gt; Low Stock)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let topRightBadges = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let badges = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Low Stock Badge</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (item.isLowStock &amp;&amp; !item.isSoldOut &amp;&amp; !item.isFeatured) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>badges.push(`&lt;span class="bg-orange_low text-white text-xs font-bold px-2 py-1 rounded-full shadow-md"&gt;LOW STOCK&lt;/span&gt;`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// On Sale Badge</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (item.isOnSale &amp;&amp; !item.isSoldOut &amp;&amp; !item.isFeatured) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>badges.push(`&lt;span class="bg-sale_blue text-white text-xs font-bold px-2 py-1 rounded-full shadow-md"&gt;ON SALE&lt;/span&gt;`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (badges.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>topRightBadges = `&lt;div class="flex space-x-1 absolute top-2 right-2 z-5"&gt;${badges.join('')}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.03] overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : ''}`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const clickHandler = !isEditMode ? `onclick="showItemDetailModal('${item.id}')"` : '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let cardHtml = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="${cardClasses}" ${clickHandler}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${soldOutBadge}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${featuredBanner}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${topRightBadges}</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="p-4 pt-3 flex flex-col justify-start flex-grow"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${(currentCategory === 'All Products' || currentCategory === 'Specials') &amp;&amp; !item.isFeatured ? `&lt;span class="text-xs font-bold text-sage block mb-1"&gt;${item.category.toUpperCase()}&lt;/span&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${(currentCategory === 'All Products' || currentCategory === 'Specials') &amp;&amp; item.isFeatured ? `&lt;span class="text-xs font-bold text-sage block mt-6 mb-1"&gt;${item.category.toUpperCase()}&lt;/span&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${(currentCategory === 'All Products' || currentCategory === 'Specials') &amp;&amp; (item.isLowStock || item.isOnSale) &amp;&amp; !item.isFeatured ? `&lt;span class="text-xs font-bold text-sage block mt-6 mb-1"&gt;${item.category.toUpperCase()}&lt;/span&gt;` : ''}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 class="text-xl font-bold text-forest mb-1 truncate" title="${item.name}"&gt;${item.name}&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sage text-xs mb-2"&gt;&lt;span class="font-semibold"&gt;${item.brand || item.grower || ''}&lt;/span&gt; ${item.type ? `| ${item.type}` : ''}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-forest/80 text-sm line-clamp-2"&gt;${item.description || 'No description available.'}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="p-4 pt-3 border-t border-sage/20 mt-auto flex justify-between items-center bg-cream/70"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-forest"&gt;${priceHtml}&lt;/div&gt;`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEditMode) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>cardHtml += `&lt;div class="flex space-x-2 z-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onclick="event.stopPropagation(); showCrudModal('${item.id}')" class="bg-sage text-cream p-2 rounded-lg text-xs hover:bg-forest transition btn-brand" title="Edit Item"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onclick="event.stopPropagation(); showDeleteModal('${item.id}')" class="bg-red_sale text-white p-2 rounded-lg text-xs hover:bg-red-700 transition btn-brand" title="Delete Item"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>cardHtml += `&lt;/div&gt;&lt;/div&gt;`; // Removed 'Click for Details'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return cardHtml;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.initMenu = (isMock = false) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (isMock) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>allCategories.forEach(cat =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>inventory[cat] = {};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>(seedData[cat] || []).forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const itemId = item.id || crypto.randomUUID();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>inventory[cat][itemId] = { ...item, id: itemId, category: cat, isFeatured: item.isFeatured || false, isSoldOut: item.isSoldOut !== undefined ? item.isSoldOut : false, isLowStock: item.isLowStock || false, isOnSale: item.isOnSale || false };</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderCategories();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderControls();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderMenu();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const loadingIndicator = document.getElementById('loading-indicator');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (loadingIndicator) {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>loadingIndicator.textContent = 'Menu loaded (Mock Data)';</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>setTimeout(() =&gt; loadingIndicator.classList.add('hidden'), 500);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCategories();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderControls();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setupDataListeners();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
