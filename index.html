@@ -1337,6 +1337,28 @@
             return cardHtml;
         }
 
+        // Authentication Function
+        // This function will be called by the DOMContentLoaded listener
+        async function authenticate() { 
+            try {
+                // This app uses Anonymous Sign-In. 
+                // Any user (customer or admin) gets a temporary anonymous account.
+                // Your Firestore Security Rules will handle authorization.
+                await window.signInAnonymously(window.auth);
+                
+                window.userId = window.auth.currentUser.uid;
+                window.initMenu(); 
+            } catch (error) {
+                console.error("Firebase Auth error:", error);
+                if(window.showMessage) {
+                    window.showMessage("Could not authenticate with database.", true); 
+                } else {
+                    // Fallback alert if showMessage isn't defined yet
+                    alert("Could not authenticate with database.");
+                }
+            }
+        }
+
         function initMenu(isMock = false) {
              if (isMock) {
                 allCategories.forEach(cat => {
@@ -1394,14 +1416,14 @@
             window.showCategorySelectionModal = showCategorySelectionModal;
             window.initMenu = initMenu;
             window.showMessage = showMessage;
-
+            window.authenticate = authenticate; // <-- FIX: Attach authenticate to window
 
              // 1. Initialize Firebase
             if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
                 try {
-                    const app = initializeApp(firebaseConfig);
-                    window.db = getFirestore(app);
-                    window.auth = getAuth(app);
+                    const app = window.initializeApp(firebaseConfig);
+                    window.db = window.getFirestore(app);
+                    window.auth = window.getAuth(app);
                 } catch (e) {
                     console.error("Firebase initialization failed:", e);
                 }
