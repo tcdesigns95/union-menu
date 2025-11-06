@@ -112,11 +112,13 @@
         <header class="sticky top-0 z-30 shadow-lg bg-forest">
             <div class="p-4 flex justify-between items-center text-cream">
                 
-                <!-- Title -->
-                <h1 class="text-3xl md:text-4xl font-script text-cream">Union Dispensary</h1>
+                <!-- Title (NOW THE SECRET ADMIN TRIGGER) -->
+                <h1 id="secret-admin-trigger" class="text-3xl md:text-4xl font-script text-cream cursor-pointer select-none">
+                    Union Dispensary
+                </h1>
                 
-                <!-- Edit Toggle Button -->
-                <button id="edit-toggle-btn" class="bg-sage text-cream p-3 rounded-full btn-brand hover:bg-sage/80" onclick="toggleEditMode()" title="Toggle Edit Mode">
+                <!-- Edit Toggle Button (HIDDEN BY DEFAULT) -->
+                <button id="edit-toggle-btn" class="hidden bg-sage text-cream p-3 rounded-full btn-brand hover:bg-sage/80" onclick="toggleEditMode()" title="Toggle Edit Mode">
                     <svg id="settings-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform duration-300">
                         <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.78 1.35a2 2 0 0 0 .72 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15-.09a2 2 0 0 0-.73 2.73l.78 1.35a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.18a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.78-1.35a2 2 0 0 0-.72-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.78-1.35a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
                         <circle cx="12" cy="12" r="3"/>
@@ -216,7 +218,7 @@
     <div id="item-detail-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4">
         <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg text-forest my-8 font-serif">
             <h3 id="detail-modal-title" class="text-3xl font-bold mb-4 border-b pb-2 border-sage/50"></h3>
-            <div id="detail-modal-body" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+            <div id="detail-modal-body" class_name="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 <!-- Details rendered by JS -->
             </div>
             <div class="mt-8 flex justify-end">
@@ -260,19 +262,14 @@
         // Initialization Logic
         
         const firebaseConfig = {
-  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
-  authDomain: "union-live-menu.firebaseapp.com",
-  projectId: "union-live-menu",
-  storageBucket: "union-live-menu.firebasestorage.app",
-  messagingSenderId: "724633408861",
-  appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
-  measurementId: "G-E6C1E25NLW"
-};
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
         
-        // =======================================================================
-        // (No more edits needed below this line in this script block)
-        // =======================================================================
-
         
         if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
             try {
@@ -310,6 +307,35 @@
                 console.warn("Firebase not initialized, running in mock mode.");
                 window.initMenu(true); // Run mock mode
              }
+
+             // --- NEW: SECRET ADMIN TRIGGER ---
+             let clickCount = 0;
+             let lastClickTime = 0;
+             const secretTrigger = document.getElementById('secret-admin-trigger');
+             
+             if (secretTrigger) {
+                secretTrigger.addEventListener('click', () => {
+                    const now = Date.now();
+                    
+                    // Reset count if taps are too far apart
+                    if (now - lastClickTime > 1500) { // 1.5 second window
+                        clickCount = 0;
+                    }
+                    
+                    lastClickTime = now;
+                    clickCount++;
+                    
+                    if (clickCount >= 3) {
+                        const editButton = document.getElementById('edit-toggle-btn');
+                        if(editButton) {
+                            editButton.classList.remove('hidden');
+                            window.showMessage('Admin access unlocked.', false);
+                        }
+                        clickCount = 0; // Reset
+                    }
+                });
+             }
+             // --- END SECRET ADMIN TRIGGER ---
         });
 
     </script>
@@ -637,6 +663,9 @@
                 icon.classList.remove('rotate-90');
                 
                 addItemContainer.classList.add('hidden');
+                // FIX: Re-hide the toggle button when logging out
+                toggleBtn.classList.add('hidden'); 
+                
                 renderMenu();
                 return;
             }
@@ -1154,7 +1183,7 @@
                 const activeClasses = 'bg-sage text-cream border-b-4 border-cream';
                 const inactiveClasses = 'text-cream/70 hover:text-cream/90 hover:bg-forest/70 transition';
                 // FIX: Added flex-grow and flex-shrink to distribute width evenly
-                button.innerHTML = `<span class="flex items-center space-x-1 sm:space-x-2">${iconHtml}<span>${category}</span></span>`;
+                button.innerHTML = `<span class="flex justify-center items-center space-x-1 sm:space-x-2">${iconHtml}<span>${category}</span></span>`;
                 button.className = `p-3 sm:p-4 flex-grow flex-shrink-0 text-xs sm:text-base font-bold ${isActive ? activeClasses : inactiveClasses} whitespace-nowrap`;
                 tabsContainer.appendChild(button);
             });
