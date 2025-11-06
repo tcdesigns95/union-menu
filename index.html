@@ -259,7 +259,12 @@
         window.updateDoc = updateDoc;
         window.writeBatch = writeBatch;
         
-        // Initialization Logic
+        // =======================================================================
+        // PASTE YOUR FIREBASE CONFIG OBJECT HERE
+        // =======================================================================
+        // 1. Go to your Firebase project settings.
+        // 2. Find your Web App's config object.
+        // 3. Copy and paste it here, replacing the placeholder object below.
         
         const firebaseConfig = {
   apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
@@ -270,7 +275,12 @@
   appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
   measurementId: "G-E6C1E25NLW"
 };
+
         
+        // =======================================================================
+        // (No more edits needed below this line in this script block)
+        // =======================================================================
+
         
         if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
             try {
@@ -283,7 +293,8 @@
         }
         
         // Authentication Function
-        async function authenticate() {
+        // This function will be called by the DOMContentLoaded listener
+        window.authenticate = async function() { 
             try {
                 // This app uses Anonymous Sign-In. 
                 // Any user (customer or admin) gets a temporary anonymous account.
@@ -296,49 +307,12 @@
                 console.error("Firebase Auth error:", error);
                 if(window.showMessage) {
                     window.showMessage("Could not authenticate with database.", true); 
+                } else {
+                    // Fallback alert if showMessage isn't defined yet
+                    alert("Could not authenticate with database.");
                 }
             }
         }
-        
-        // Start the application
-        document.addEventListener('DOMContentLoaded', () => {
-             if (window.db) {
-                authenticate();
-             } else {
-                console.warn("Firebase not initialized, running in mock mode.");
-                window.initMenu(true); // Run mock mode
-             }
-
-             // --- NEW: SECRET ADMIN TRIGGER ---
-             let clickCount = 0;
-             let lastClickTime = 0;
-             const secretTrigger = document.getElementById('secret-admin-trigger');
-             
-             if (secretTrigger) {
-                secretTrigger.addEventListener('click', () => {
-                    const now = Date.now();
-                    
-                    // Reset count if taps are too far apart
-                    if (now - lastClickTime > 1500) { // 1.5 second window
-                        clickCount = 0;
-                    }
-                    
-                    lastClickTime = now;
-                    clickCount++;
-                    
-                    if (clickCount >= 3) {
-                        const editButton = document.getElementById('edit-toggle-btn');
-                        if(editButton) {
-                            editButton.classList.remove('hidden');
-                            window.showMessage('Admin access unlocked.', false);
-                        }
-                        clickCount = 0; // Reset
-                    }
-                });
-             }
-             // --- END SECRET ADMIN TRIGGER ---
-        });
-
     </script>
     
     <!-- Main Application Logic (Exposed to window for event handlers) -->
@@ -498,7 +472,8 @@
 
         // Helper to get the correct public collection path
         function getCollectionPath(category) {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            // FIX: Use the hardcoded appId from your config, not a canvas variable
+            const appId = "union-live-menu"; 
             return `artifacts/${appId}/public/data/${category}`;
         }
 
@@ -569,7 +544,10 @@
                     });
                     inventory[category] = itemsMap;
                     
-                    seedCollection(category);
+                    if (snapshot.empty && seedData[category]) {
+                        seedCollection(category); 
+                    }
+                    
                     renderMenu();
                     
                     const loadingIndicator = document.getElementById('loading-indicator');
@@ -1201,9 +1179,8 @@
                  for (const cat in inventory) {
                      for (const id in inventory[cat]) {
                          const item = inventory[cat][id];
-                         // FIX: Include manual specials (cat === 'Specials') AND (promoted items that are NOT sold out)
-                         if ( (item.category === 'Specials' && !item.isSoldOut) || 
-                              ((item.isFeatured || item.isOnSale) && item.category !== 'Specials' && !item.isSoldOut) ) {
+                         if ((cat === 'Specials' && !item.isSoldOut) || 
+                             ((item.isFeatured || item.isOnSale) && item.category !== 'Specials' && !item.isSoldOut) ) {
                              itemsToDisplay.push(item);
                          }
                      }
@@ -1414,6 +1391,46 @@
             renderControls();
             setupDataListeners();
         };
+
+        // --- NEW: App Initialization ---
+        // This listener ensures all functions are defined before we try to run them.
+        document.addEventListener('DOMContentLoaded', () => {
+             if (window.db) {
+                window.authenticate(); // Authenticate with Firebase
+             } else {
+                console.warn("Firebase not initialized, running in mock mode.");
+                window.initMenu(true); // Run in mock mode
+             }
+
+             // --- SECRET ADMIN TRIGGER ---
+             let clickCount = 0;
+             let lastClickTime = 0;
+             const secretTrigger = document.getElementById('secret-admin-trigger');
+             
+             if (secretTrigger) {
+                secretTrigger.addEventListener('click', () => {
+                    const now = Date.now();
+                    
+                    // Reset count if taps are too far apart
+                    if (now - lastClickTime > 1500) { // 1.5 second window
+                        clickCount = 0;
+                    }
+                    
+                    lastClickTime = now;
+                    clickCount++;
+                    
+                    if (clickCount >= 3) {
+                        const editButton = document.getElementById('edit-toggle-btn');
+                        if(editButton) {
+                            editButton.classList.remove('hidden');
+                            window.showMessage('Admin access unlocked.', false);
+                        }
+                        clickCount = 0; // Reset
+                    }
+                });
+             }
+             // --- END SECRET ADMIN TRIGGER ---
+        });
 
     </script>
 </body>
