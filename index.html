@@ -1200,7 +1200,9 @@
                  for (const cat in inventory) {
                      for (const id in inventory[cat]) {
                          const item = inventory[cat][id];
-                         if ((cat === 'Specials' && !item.category_target) || (item.isFeatured && item.category !== 'Specials') || (item.isOnSale && item.category !== 'Specials')) {
+                         // FIX: Include manual specials (cat === 'Specials') AND (promoted items that are NOT sold out)
+                         if ( (item.category === 'Specials' && !item.isSoldOut) || 
+                              ((item.isFeatured || item.isOnSale) && item.category !== 'Specials' && !item.isSoldOut) ) {
                              itemsToDisplay.push(item);
                          }
                      }
