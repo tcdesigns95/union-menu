@@ -234,8 +234,8 @@
     <!-- Firebase Imports and Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, where, getDocs, updateDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         // setLogLevel('Debug'); // Uncomment this line to enable verbose Firebase logging
 
         // Global Firebase References (available to the window object)
@@ -246,7 +246,6 @@
         window.initializeApp = initializeApp;
         window.getAuth = getAuth;
         window.signInAnonymously = signInAnonymously;
-        window.signInWithCustomToken = signInWithCustomToken;
         window.getFirestore = getFirestore;
         window.collection = collection;
         window.onSnapshot = onSnapshot;
@@ -254,19 +253,21 @@
         window.setDoc = setDoc;
         window.deleteDoc = deleteDoc;
         window.query = query;
-        window.where = where;
-        window.getDocs = getDocs;
-        window.updateDoc = updateDoc;
         window.writeBatch = writeBatch;
         
-        // =======================================================================
-        // PASTE YOUR FIREBASE CONFIG OBJECT HERE
-        // =======================================================================
-        // 1. Go to your Firebase project settings.
-        // 2. Find your Web App's config object.
-        // 3. Copy and paste it here, replacing the placeholder object below.
         
-const firebaseConfig = {
+        // =======================================================================
+        // This <script> block MUST remain separate and of type="module"
+        // It handles importing the Firebase libraries.
+        // =======================================================================
+
+    </script>
+    
+    <!-- Main Application Logic (Exposed to window for event handlers) -->
+    <script>
+        // === App State and Configuration ===
+        
+       const firebaseConfig = {
   apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
@@ -275,48 +276,13 @@ const firebaseConfig = {
   appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
   measurementId: "G-E6C1E25NLW"
 };
-        // =======================================================================
-        // (No more edits needed below this line in this script block)
-        // =======================================================================
 
         
-        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
-            try {
-                const app = initializeApp(firebaseConfig);
-                window.db = getFirestore(app);
-                window.auth = getAuth(app);
-            } catch (e) {
-                console.error("Firebase initialization failed:", e);
-            }
-        }
-        
-        // Authentication Function
-        // This function will be called by the DOMContentLoaded listener
-        window.authenticate = async function() { 
-            try {
-                // This app uses Anonymous Sign-In. 
-                // Any user (customer or admin) gets a temporary anonymous account.
-                // Your Firestore Security Rules will handle authorization.
-                await window.signInAnonymously(window.auth);
-                
-                window.userId = window.auth.currentUser.uid;
-                window.initMenu(); 
-            } catch (error) {
-                console.error("Firebase Auth error:", error);
-                if(window.showMessage) {
-                    window.showMessage("Could not authenticate with database.", true); 
-                } else {
-                    // Fallback alert if showMessage isn't defined yet
-                    alert("Could not authenticate with database.");
-                }
-            }
-        }
-    </script>
-    
-    <!-- Main Application Logic (Exposed to window for event handlers) -->
-    <script>
-        // === App State and Configuration ===
-        
+        // =======================================================================
+        // (No more edits needed above this line)
+        // =======================================================================
+
+
         let inventory = {}; 
         let currentCategory = 'Flower';
         let isEditMode = false;
@@ -471,14 +437,14 @@ const firebaseConfig = {
         // Helper to get the correct public collection path
         function getCollectionPath(category) {
             // FIX: Use the hardcoded appId from your config, not a canvas variable
-            const appId = "union-live-menu"; 
+            const appId = firebaseConfig.projectId; // Use projectId as the appId
             return `artifacts/${appId}/public/data/${category}`;
         }
 
         // --- Core Utility Functions (Needed early) ---
 
         // Simple message display instead of alert
-        window.showMessage = (text, isError = false) => {
+        function showMessage(text, isError = false) {
             let messageBox = document.getElementById('message-box');
             if (!messageBox) return; 
             
@@ -616,7 +582,7 @@ const firebaseConfig = {
         // --- UI/Modal Logic (Requires other functions defined) ---
 
         // Fix: Make handlePinKeydown global so it can be accessed from HTML inline attribute
-        window.handlePinKeydown = (event) => {
+        function handlePinKeydown(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
                 window.checkAdminKey();
@@ -624,7 +590,7 @@ const firebaseConfig = {
         };
 
         // Toggle Edit Mode (requires key check)
-        window.toggleEditMode = (forceShow = null) => {
+        function toggleEditMode(forceShow = null) {
             const toggleBtn = document.getElementById('edit-toggle-btn');
             const icon = document.getElementById('settings-icon');
             const addItemContainer = document.getElementById('add-item-container');
@@ -657,7 +623,7 @@ const firebaseConfig = {
             }
         };
 
-        window.checkAdminKey = () => {
+        function checkAdminKey() {
             const input = document.getElementById('admin-pin-input');
             if (input.value === 'union420') {
                 isEditMode = true;
@@ -677,7 +643,7 @@ const firebaseConfig = {
             }
         };
 
-        window.showCrudModal = (itemId = null, categoryOverride = null) => {
+        function showCrudModal(itemId = null, categoryOverride = null) {
             let item = null;
             let category = categoryOverride || currentCategory;
 
@@ -776,9 +742,9 @@ const firebaseConfig = {
             document.getElementById('crud-modal').classList.remove('hidden');
         };
 
-        window.hideCrudModal = () => { document.getElementById('crud-modal').classList.add('hidden'); };
-        window.hideItemDetailModal = () => { document.getElementById('item-detail-modal').classList.add('hidden'); };
-        window.showDeleteModal = (itemId) => { 
+        function hideCrudModal() { document.getElementById('crud-modal').classList.add('hidden'); };
+        function hideItemDetailModal() { document.getElementById('item-detail-modal').classList.add('hidden'); };
+        function showDeleteModal(itemId) { 
             for (const cat of allCategories) {
                 if (inventory[cat] && inventory[cat][itemId]) {
                     deleteItemDetails = inventory[cat][itemId];
@@ -789,8 +755,8 @@ const firebaseConfig = {
             document.getElementById('delete-item-name').textContent = deleteItemDetails.name;
             document.getElementById('delete-modal').classList.remove('hidden');
         };
-        window.hideDeleteModal = () => { document.getElementById('delete-modal').classList.add('hidden'); deleteItemDetails = null; };
-        window.showCategorySelectionModal = () => { 
+        function hideDeleteModal() { document.getElementById('delete-modal').classList.add('hidden'); deleteItemDetails = null; };
+        function showCategorySelectionModal() { 
             const container = document.getElementById('category-buttons-container');
             container.innerHTML = allCategories.map(category => `
                 <button onclick="hideCategorySelectionModal(); showCrudModal(null, '${category}')" class="bg-sage text-cream p-4 rounded-lg font-bold hover:bg-forest transition btn-brand">
@@ -799,9 +765,9 @@ const firebaseConfig = {
             `).join('');
             document.getElementById('category-selection-modal').classList.remove('hidden');
         };
-        window.hideCategorySelectionModal = () => { document.getElementById('category-selection-modal').classList.add('hidden'); };
+        function hideCategorySelectionModal() { document.getElementById('category-selection-modal').classList.add('hidden'); };
         
-        window.showItemDetailModal = (itemId) => {
+        function showItemDetailModal(itemId) {
             let item = null;
             // FIX: Check if isEditMode is true, if so, allow modal to open for admin
             if (isEditMode) {
@@ -865,7 +831,7 @@ const firebaseConfig = {
             document.getElementById('item-detail-modal').classList.remove('hidden');
         };
 
-        window.changeCategory = (category) => {
+        function changeCategory(category) {
             currentCategory = category;
             
             const supportsTypeFilter = ['All Products', 'Flower', 'Cartridges', 'Concentrates', 'Pre-Rolls', 'Edibles'].includes(category);
@@ -899,19 +865,19 @@ const firebaseConfig = {
         };
         
         // --- Search, Filter & Sort Functions ---
-        window.handleSearch = (event) => { currentSearchQuery = event.target.value.toLowerCase().trim(); renderControls(); renderMenu(); };
-        window.handleTypeFilter = (type) => { currentTypeFilter = type; renderControls(); renderMenu(); };
-        window.handleFormatFilter = (format) => { currentFormatFilter = format; renderControls(); renderMenu(); };
-        window.handleDeviceFilter = (device) => { currentDeviceFilter = device; renderControls(); renderMenu(); };
-        window.handleVolumeFilter = (volume) => { currentVolumeFilter = volume; renderControls(); renderMenu(); };
-        window.handleRatioFilter = (ratio) => { currentRatioFilter = ratio; renderControls(); renderMenu(); };
-        window.handleFormFilter = (form) => { currentFormFilter = form; renderControls(); renderMenu(); }; 
-        window.handleWeightFilter = (weight) => { currentWeightFilter = weight; renderControls(); renderMenu(); };
-        window.handlePackagingFilter = (packaging) => { currentPackagingFilter = packaging; renderControls(); renderMenu(); };
-        window.handleInfusionFilter = (infused) => { currentInfusionFilter = infused; renderControls(); renderMenu(); };
-        window.handleCannabinoidFilter = (cannabinoid) => { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); }; 
-        window.handleSortChange = (event) => { currentSortBy = event.target.value; renderControls(); renderMenu(); };
-        window.handleSortDirection = (direction) => { currentSortDirection = direction; renderControls(); renderMenu(); };
+        function handleSearch(event) { currentSearchQuery = event.target.value.toLowerCase().trim(); renderControls(); renderMenu(); };
+        function handleTypeFilter(type) { currentTypeFilter = type; renderControls(); renderMenu(); };
+        function handleFormatFilter(format) { currentFormatFilter = format; renderControls(); renderMenu(); };
+        function handleDeviceFilter(device) { currentDeviceFilter = device; renderControls(); renderMenu(); };
+        function handleVolumeFilter(volume) { currentVolumeFilter = volume; renderControls(); renderMenu(); };
+        function handleRatioFilter(ratio) { currentRatioFilter = ratio; renderControls(); renderMenu(); };
+        function handleFormFilter(form) { currentFormFilter = form; renderControls(); renderMenu(); }; 
+        function handleWeightFilter(weight) { currentWeightFilter = weight; renderControls(); renderMenu(); };
+        function handlePackagingFilter(packaging) { currentPackagingFilter = packaging; renderControls(); renderMenu(); };
+        function handleInfusionFilter(infused) { currentInfusionFilter = infused; renderControls(); renderMenu(); };
+        function handleCannabinoidFilter(cannabinoid) { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); }; 
+        function handleSortChange(event) { currentSortBy = event.target.value; renderControls(); renderMenu(); };
+        function handleSortDirection(direction) { currentSortDirection = direction; renderControls(); renderMenu(); };
         
         // --- RENDER CONTROLS ---
         
@@ -1365,7 +1331,7 @@ const firebaseConfig = {
             return cardHtml;
         }
 
-        window.initMenu = (isMock = false) => {
+        function initMenu(isMock = false) {
              if (isMock) {
                 allCategories.forEach(cat => {
                     inventory[cat] = {};
@@ -1393,12 +1359,55 @@ const firebaseConfig = {
         // --- NEW: App Initialization ---
         // This listener ensures all functions are defined before we try to run them.
         document.addEventListener('DOMContentLoaded', () => {
-             if (window.db) {
+            // Make core functions globally accessible for HTML onclicks
+            window.toggleEditMode = toggleEditMode;
+            window.handlePinKeydown = handlePinKeydown;
+            window.checkAdminKey = checkAdminKey;
+            window.hideCrudModal = hideCrudModal;
+            window.executeDelete = executeDelete;
+            window.hideDeleteModal = hideDeleteModal;
+            window.hideCategorySelectionModal = hideCategorySelectionModal;
+            window.hideItemDetailModal = hideItemDetailModal;
+            window.changeCategory = changeCategory;
+            window.handleSearch = handleSearch;
+            window.handleTypeFilter = handleTypeFilter;
+            window.handleFormatFilter = handleFormatFilter;
+            window.handleDeviceFilter = handleDeviceFilter;
+            window.handleVolumeFilter = handleVolumeFilter;
+            window.handleRatioFilter = handleRatioFilter;
+            window.handleFormFilter = handleFormFilter;
+            window.handleWeightFilter = handleWeightFilter;
+            window.handlePackagingFilter = handlePackagingFilter;
+            window.handleInfusionFilter = handleInfusionFilter;
+            window.handleCannabinoidFilter = handleCannabinoidFilter;
+            window.handleSortChange = handleSortChange;
+            window.handleSortDirection = handleSortDirection;
+            window.showCrudModal = showCrudModal;
+            window.showDeleteModal = showDeleteModal;
+            window.showItemDetailModal = showItemDetailModal;
+            window.showCategorySelectionModal = showCategorySelectionModal;
+            window.initMenu = initMenu;
+            window.showMessage = showMessage;
+
+
+             // 1. Initialize Firebase
+            if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    window.db = getFirestore(app);
+                    window.auth = getAuth(app);
+                } catch (e) {
+                    console.error("Firebase initialization failed:", e);
+                }
+            }
+
+            // 2. Authenticate (which calls initMenu)
+            if (window.db) {
                 window.authenticate(); // Authenticate with Firebase
-             } else {
+            } else {
                 console.warn("Firebase not initialized, running in mock mode.");
                 window.initMenu(true); // Run in mock mode
-             }
+            }
 
              // --- SECRET ADMIN TRIGGER ---
              let clickCount = 0;
