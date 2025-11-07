@@ -56,28 +56,15 @@
             transform: translateY(-1px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        /* Style for required form fields */
-        label.required::after {
-            content: " *";
-            color: #ef4444; /* Red-600 */
-        }
         /* Class for sold-out items (Customer View) */
         .sold-out {
             /* Dim the entire card to show it's inactive/out */
             opacity: 0.55; 
             filter: grayscale(80%);
             position: relative;
-        }
-        /* Ensure click is only blocked in customer mode */
-        body:not(.admin-mode) .sold-out {
-             pointer-events: none;
+            pointer-events: none; /* Block clicks on sold out items */
         }
         
-        /* Animation for settings icon in admin mode */
-        .rotate-90 {
-            transform: rotate(90deg);
-        }
-
         /* Line clamp for description */
         .line-clamp-2 {
             overflow: hidden;
@@ -112,18 +99,12 @@
         <header class="sticky top-0 z-30 shadow-lg bg-forest">
             <div class="p-4 flex justify-between items-center text-cream">
                 
-                <!-- Title (NOW THE SECRET ADMIN TRIGGER) -->
-                <h1 id="secret-admin-trigger" class="text-3xl md:text-4xl font-script text-cream cursor-pointer select-none">
+                <!-- Title -->
+                <h1 id="main-title" class="text-3xl md:text-4xl font-script text-cream select-none">
                     Union Dispensary
                 </h1>
                 
-                <!-- Edit Toggle Button (HIDDEN BY DEFAULT) -->
-                <button id="edit-toggle-btn" class="hidden bg-sage text-cream p-3 rounded-full btn-brand hover:bg-sage/80" onclick="toggleEditMode()" title="Toggle Edit Mode">
-                    <svg id="settings-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform duration-300">
-                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.78 1.35a2 2 0 0 0 .72 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15-.09a2 2 0 0 0-.73 2.73l.78 1.35a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.18a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.78-1.35a2 2 0 0 0-.72-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.78-1.35a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                </button>
+                <!-- Admin button removed -->
             </div>
 
             <!-- Category Tabs -->
@@ -135,15 +116,12 @@
         <!-- Main Content Area -->
         <main class="p-4 md:p-6">
             
-            <!-- Admin Controls (Search/Sort) - REMOVED sticky class -->
+            <!-- Customer Controls (Search/Sort) -->
             <div id="controls-container" class="bg-cream pt-2 pb-4 z-10">
                 <!-- Controls rendered by JS -->
             </div>
 
-            <!-- Add Item Button (Admin Mode) -->
-            <div id="add-item-container" class="mb-6 hidden">
-                <!-- Content rendered by JS -->
-            </div>
+            <!-- Add Item Button Removed -->
 
             <!-- Loading Indicator -->
             <div class="text-center text-xl text-sage pt-10" id="loading-indicator">Loading menu data...</div>
@@ -157,68 +135,13 @@
 
     <!-- === MODALS === -->
 
-    <!-- Admin PIN Modal -->
-    <div id="pin-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest">
-            <h3 class="text-2xl font-bold mb-4 font-serif">Enter Admin Key</h3>
-            <p id="pin-error" class="text-sm mb-4 text-red_sale font-medium"></p>
-            
-            <input type="password" id="admin-pin-input" onkeydown="handlePinKeydown(event)" class="w-full p-3 mb-4 border-2 border-sage rounded-lg bg-white text-forest placeholder-sage/70 focus:outline-none focus:ring-2 focus:ring-sage font-serif" placeholder="Key: union420">
-            <div class="flex justify-between space-x-3">
-                <button class="flex-1 bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="toggleEditMode(false)">Cancel</button>
-                <button class="flex-1 bg-forest text-cream p-3 rounded-lg font-bold hover:bg-sage transition" onclick="checkAdminKey()">Unlock Editor</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CRUD (Create/Edit) Modal -->
-    <div id="crud-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4">
-        <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-xl text-forest my-8 font-serif">
-            <h3 id="crud-modal-title" class="text-3xl font-bold mb-6 border-b pb-3 border-sage/50"></h3>
-            
-            <form id="crud-form">
-                <div id="crud-fields-container" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    <!-- Form fields generated by JS -->
-                </div>
-                <div class="flex justify-end space-x-3 mt-8 pt-4 border-t border-sage/50">
-                    <button type="button" class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition btn-brand" onclick="hideCrudModal()">Cancel</button>
-                    <button type="submit" id="crud-save-btn" class="bg-forest text-cream p-3 rounded-lg font-bold hover:bg-sage transition btn-brand">Save Item</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Delete Confirmation Modal -->
-    <div id="delete-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-md text-forest">
-            <h3 class="text-2xl font-bold mb-4 font-serif">Confirm Deletion</h3>
-            <p class="mb-6 font-serif">Are you sure you want to delete <span id="delete-item-name" class="font-bold text-red_sale"></span>? This action cannot be undone.</p>
-            <div class="flex justify-end space-x-3">
-                <button class="flex-1 bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideDeleteModal()">Cancel</button>
-                <button class="flex-1 bg-red_sale text-white p-3 rounded-lg font-bold hover:bg-red-700 transition btn-brand" onclick="executeDelete()">Delete Permanently</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Category Selection Modal (for adding items in 'All Products' view) -->
-    <div id="category-selection-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="bg-cream p-8 rounded-xl shadow-2xl w-full max-w-sm text-forest">
-            <h3 class="text-2xl font-bold mb-4 font-serif">Select Product Category</h3>
-            <p class="mb-6 text-sage font-serif">Which type of product are you adding?</p>
-            <div id="category-buttons-container" class="grid grid-cols-2 gap-3">
-                <!-- Buttons rendered by JS -->
-            </div>
-            <div class="mt-6 flex justify-end">
-                <button class="bg-gray-300 text-forest p-3 rounded-lg hover:bg-gray-400 transition" onclick="hideCategorySelectionModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <!-- Admin Modals Removed -->
     
     <!-- Item Detail / Quick View Modal (Customer View) -->
     <div id="item-detail-modal" class="hidden fixed inset-0 bg-forest bg-opacity-75 flex items-center justify-center z-40 overflow-y-auto p-4">
         <div class="bg-cream p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg text-forest my-8 font-serif">
             <h3 id="detail-modal-title" class="text-3xl font-bold mb-4 border-b pb-2 border-sage/50"></h3>
-            <div id="detail-modal-body" class_name="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+            <div id="detail-modal-body" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 <!-- Details rendered by JS -->
             </div>
             <div class="mt-8 flex justify-end">
@@ -275,14 +198,13 @@
         // 3. Copy and paste it here, replacing the placeholder object below.
         
         const firebaseConfig = {
-  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
-  authDomain: "union-live-menu.firebaseapp.com",
-  projectId: "union-live-menu",
-  storageBucket: "union-live-menu.firebasestorage.app",
-  messagingSenderId: "724633408861",
-  appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
-  measurementId: "G-E6C1E25NLW"
-};
+            apiKey: "YOUR_API_KEY", // <--- REPLACE
+            authDomain: "YOUR_AUTH_DOMAIN", // <--- REPLACE
+            projectId: "YOUR_PROJECT_ID", // <--- REPLACE
+            storageBucket: "YOUR_STORAGE_BUCKET", // <--- REPLACE
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // <--- REPLACE
+            appId: "YOUR_APP_ID" // <--- REPLACE
+        };
         
         // =======================================================================
         // (No more edits needed above this line)
@@ -291,9 +213,7 @@
 
         let inventory = {}; 
         let currentCategory = 'Flower';
-        let isEditMode = false;
-        let currentItemForEdit = null; 
-        let deleteItemDetails = null;
+        // let isEditMode = false; // REMOVED
         let currentSearchQuery = '';
         let currentTypeFilter = 'All'; 
         let currentSortBy = 'name'; 
@@ -323,6 +243,7 @@
         };
 
         // Definitive structure for each category's data fields
+        // REMOVED 'staffNotes' from all definitions
         const categoryFields = {
             'Flower': [
                 { id: 'name', label: 'Strain Name / THC%', type: 'text', required: true, sortable: true },
@@ -333,7 +254,6 @@
                 { id: 'price_1g', label: 'Price (1 gram)', type: 'text', required: true, placeholder: '$9 - $12', priceField: true, sortable: true }, 
                 { id: 'price_35g', label: 'Price (3.5g / Eighth)', type: 'text', required: true, placeholder: '$25 - $40', priceField: true, sortable: true },
                 { id: 'price_7g', label: 'Price (7g / Quarter)', type: 'text', required: false, placeholder: '$50 - $80', priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Concentrates': [
                 { id: 'name', label: 'Product Name (e.g., Live Resin)', type: 'text', required: true, sortable: true },
@@ -343,7 +263,6 @@
                 { id: 'potency', label: 'THC/Potency %', type: 'text' },
                 { id: 'description', label: 'Description/Texture', type: 'textarea' },
                 { id: 'price', label: 'Price (per unit)', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Cartridges': [
                 { id: 'name', label: 'Strain/Flavor', type: 'text', required: true, sortable: true },
@@ -354,17 +273,15 @@
                 { id: 'device_type', label: 'Device (510/AIO)', type: 'select', options: ['510 Screw On', 'All-In-One'], required: true, sortable: true }, 
                 { id: 'potency', label: 'THC/Potency %', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Edibles': [
                 { id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },
                 { id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },
                 { id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },
-                { id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true }, // UPDATED FIELD TYPE
+                { id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true },
                 { id: 'dosage', label: 'Total Dosage (e.g., 100mg)', type: 'text' },
                 { id: 'flavor', label: 'Flavor/Type', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Topicals': [
                 { id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },
@@ -373,7 +290,6 @@
                 { id: 'size', label: 'Size/Volume', type: 'text' },
                 { id: 'cbd_ratio', label: 'CBD:THC Ratio', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Tinctures': [ 
                 { id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },
@@ -382,7 +298,6 @@
                 { id: 'potency', label: 'Potency (mg)', type: 'text' },
                 { id: 'size', label: 'Size (ml)', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Pre-Rolls': [
                 { id: 'name', label: 'Strain Name', type: 'text', required: true, sortable: true },
@@ -392,14 +307,12 @@
                 { id: 'infused', label: 'Infused?', type: 'select', options: ['No', 'Yes'], required: true, sortable: true }, 
                 { id: 'potency', label: 'Potency/Notes', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
             'Specials': [
                 { id: 'name', label: 'Special Name (e.g., BOGO Deal)', type: 'text', required: true, sortable: true },
                 { id: 'category_target', label: 'Target Category (e.g., Edibles)', type: 'text' },
                 { id: 'description', label: 'Full Deal Details', type: 'textarea', required: true },
                 { id: 'price', label: 'New Price/Discount', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'staffNotes', label: 'Internal Staff Notes (Admin Only)', type: 'textarea' } 
             ],
         };
 
@@ -409,34 +322,35 @@
         // === Firebase & Data Functions ===
         
         // Seed data for initial population if a collection is empty
+        // REMOVED 'staffNotes' from all seed data
         const seedData = {
             'Flower': [
-                { id: 'seed1', name: 'Northern Lights (21% THC)', type: 'Indica', grower: 'Union Growers', description: 'Deeply relaxing, perfect for sleep.', terpenes: 'Myrcene, Caryophyllene', price_1g: '$10', price_35g: '$35', price_7g: '$65', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: 'Great for beginners.' }, 
-                { id: 'seed2', name: 'Sour Diesel (26% THC)', type: 'Sativa', grower: 'Pacific Organics', description: 'Energetic and euphoric, great for daytime use.', terpenes: 'Limonene, Caryophyllene', price_1g: '$12', price_35g: '$40', price_7g: '$80', isFeatured: false, isSoldOut: false, isLowStock: true, isOnSale: false, staffNotes: '' },
-                { id: 'seed3', name: 'GSC (23% THC)', type: 'Hybrid', grower: 'Harmony Farms', description: 'Balanced effects, body relaxation with mental uplift.', terpenes: 'Linalool, Pinene', price_1g: '$9', price_35g: '$30', price_7g: '$55', isFeatured: false, isSoldOut: true, isLowStock: false, isOnSale: true, staffNotes: '' }, // Sold Out, but marked as Sale for test
+                { id: 'seed1', name: 'Northern Lights (21% THC)', type: 'Indica', grower: 'Union Growers', description: 'Deeply relaxing, perfect for sleep.', terpenes: 'Myrcene, Caryophyllene', price_1g: '$10', price_35g: '$35', price_7g: '$65', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false }, 
+                { id: 'seed2', name: 'Sour Diesel (26% THC)', type: 'Sativa', grower: 'Pacific Organics', description: 'Energetic and euphoric, great for daytime use.', terpenes: 'Limonene, Caryophyllene', price_1g: '$12', price_35g: '$40', price_7g: '$80', isFeatured: false, isSoldOut: false, isLowStock: true, isOnSale: false },
+                { id: 'seed3', name: 'GSC (23% THC)', type: 'Hybrid', grower: 'Harmony Farms', description: 'Balanced effects, body relaxation with mental uplift.', terpenes: 'Linalool, Pinene', price_1g: '$9', price_35g: '$30', price_7g: '$55', isFeatured: false, isSoldOut: true, isLowStock: false, isOnSale: true },
             ],
             'Concentrates': [
-                { id: 'seed4', name: 'Blue Dream Live Resin', brand: 'Extraction Co.', type: 'Hybrid', format: 'Live Resin', potency: '75%', description: 'Sweet berry flavor, smooth texture.', price: '$40/gram', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },
+                { id: 'seed4', name: 'Blue Dream Live Resin', brand: 'Extraction Co.', type: 'Hybrid', format: 'Live Resin', potency: '75%', description: 'Sweet berry flavor, smooth texture.', price: '$40/gram', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
             ],
             'Cartridges': [
-                { id: 'seed6', name: 'Strawberry Banana', brand: 'Vape King', type: 'Hybrid', format_type: 'Distillate', volume: '1g', device_type: '510 Screw On', potency: '85%', price: '$55', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Old batch, push this sale item.' },
-                { id: 'seed7_cart', name: 'Pineapple Express Live Resin', brand: 'Resin Pens', type: 'Sativa', format_type: 'Live Resin', volume: '0.5g', device_type: 'All-In-One', potency: '90%', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' }, 
+                { id: 'seed6', name: 'Strawberry Banana', brand: 'Vape King', type: 'Hybrid', format_type: 'Distillate', volume: '1g', device_type: '510 Screw On', potency: '85%', price: '$55', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: true },
+                { id: 'seed7_cart', name: 'Pineapple Express Live Resin', brand: 'Resin Pens', type: 'Sativa', format_type: 'Live Resin', volume: '0.5g', device_type: 'All-In-One', potency: '90%', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false }, 
             ],
             'Edibles': [
-                { id: 'seed8', name: 'Blueberry Gummies', brand: 'Chew Factory', type: 'Hybrid', cannabinoids: 'CBD', dosage: '100mg', flavor: 'Blueberry', price: '$22', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' }, // ADDED CANNABINOIDS
-                { id: 'seed9_edible', name: 'Sativa Fruit Chews', brand: 'Gummy Goodness', type: 'Sativa', cannabinoids: 'CBG', dosage: '50mg', flavor: 'Mango', price: '$18', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' }, 
+                { id: 'seed8', name: 'Blueberry Gummies', brand: 'Chew Factory', type: 'Hybrid', cannabinoids: 'CBD', dosage: '100mg', flavor: 'Blueberry', price: '$22', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
+                { id: 'seed9_edible', name: 'Sativa Fruit Chews', brand: 'Gummy Goodness', type: 'Sativa', cannabinoids: 'CBG', dosage: '50mg', flavor: 'Mango', price: '$18', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false }, 
             ],
             'Topicals': [
-                { id: 'seed9', name: 'CBD Relief Balm', brand: 'Wellness Co.', form: 'Balm', size: '4oz', cbd_ratio: '1:0 (1000mg CBD)', price: '$45', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },
+                { id: 'seed9', name: 'CBD Relief Balm', brand: 'Wellness Co.', form: 'Balm', size: '4oz', cbd_ratio: '1:0 (1000mg CBD)', price: '$45', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
             ],
             'Tinctures': [
-                { id: 'seed10', name: 'Sleep Formula Drops', brand: 'Herbal Solutions', ratio: '1:1', potency: '500mg', size: '30ml', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },
+                { id: 'seed10', name: 'Sleep Formula Drops', brand: 'Herbal Solutions', ratio: '1:1', potency: '500mg', size: '30ml', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
             ],
             'Pre-Rolls': [
-                 { id: 'seed11', name: 'Wedding Cake Single', type: 'Hybrid', weight: '1g', packaging: 'Singles', infused: 'No', potency: '28% THC', price: '$12', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false, staffNotes: '' },
+                 { id: 'seed11', name: 'Wedding Cake Single', type: 'Hybrid', weight: '1g', packaging: 'Singles', infused: 'No', potency: '28% THC', price: '$12', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false },
             ],
             'Specials': [
-                { id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true, staffNotes: 'Must mention code "BOGO50"' },
+                { id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true },
             ]
         };
 
@@ -535,260 +449,22 @@
             });
         }
         
-        async function saveItem(formData, isEdit, itemId) {
-            if (!window.db) { showMessage("Cannot save: Database connection is not active.", true); return; }
-
-            const category = formData.category;
-            const path = getCollectionPath(category);
-            const collectionRef = window.collection(window.db, path);
-
-            formData.isFeatured = formData.isFeatured === 'on';
-            formData.isSoldOut = formData.isSoldOut === 'on'; 
-            formData.isLowStock = formData.isLowStock === 'on';
-            formData.isOnSale = formData.isOnSale === 'on'; 
-            
-            delete formData.category; 
-            delete formData.id; 
-            formData.updatedAt = new Date().toISOString();
-
-            try {
-                if (isEdit && itemId) {
-                    await window.setDoc(window.doc(collectionRef, itemId), formData, { merge: true });
-                    showMessage('Item updated successfully!');
-                } else {
-                    const newItemRef = window.doc(collectionRef);
-                    await window.setDoc(newItemRef, {...formData, category: category }); 
-                    showMessage('New item added successfully!');
-                }
-            } catch (e) {
-                console.error("Error saving document: ", e);
-                showMessage(`Error saving: ${e.message}`, true);
-            }
-            hideCrudModal();
-        }
-
-        async function executeDelete() {
-            if (!window.db) { showMessage("Cannot delete: Database connection is not active.", true); hideDeleteModal(); return; }
-            if (!deleteItemDetails) return;
-            
-            const { id, category } = deleteItemDetails;
-            const path = getCollectionPath(category);
-
-            try {
-                await window.deleteDoc(window.doc(window.db, path, id));
-                showMessage(`Deleted item: ${deleteItemDetails.name}`);
-            } catch (e) {
-                console.error("Error deleting document: ", e);
-                showMessage(`Error deleting: ${e.message}`, true);
-            }
-            hideDeleteModal();
-        }
-
-
+        // Admin/CRUD functions removed
+        
         // --- UI/Modal Logic (Requires other functions defined) ---
 
-        // Fix: Make handlePinKeydown global so it can be accessed from HTML inline attribute
-        function handlePinKeydown(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); 
-                window.checkAdminKey();
-            }
-        };
-
-        // Toggle Edit Mode (requires key check)
-        function toggleEditMode(forceShow = null) {
-            const toggleBtn = document.getElementById('edit-toggle-btn');
-            const icon = document.getElementById('settings-icon');
-            const addItemContainer = document.getElementById('add-item-container');
-            const body = document.body;
-
-            if (forceShow === false) {
-                isEditMode = false;
-                body.classList.remove('admin-mode');
-                document.getElementById('pin-modal').classList.add('hidden');
-                
-                toggleBtn.classList.remove('bg-red_sale', 'hover:bg-red-700');
-                toggleBtn.classList.add('bg-sage', 'hover:bg-sage/80');
-                icon.classList.remove('rotate-90');
-                
-                addItemContainer.classList.add('hidden');
-                // FIX: Re-hide the toggle button when logging out
-                toggleBtn.classList.add('hidden'); 
-                
-                renderMenu();
-                return;
-            }
-
-            if (!isEditMode) {
-                document.getElementById('pin-modal').classList.remove('hidden');
-                document.getElementById('admin-pin-input').value = '';
-                document.getElementById('pin-error').textContent = '';
-                document.getElementById('admin-pin-input').focus();
-            } else {
-                toggleEditMode(false);
-            }
-        };
-
-        function checkAdminKey() {
-            const input = document.getElementById('admin-pin-input');
-            if (input.value === 'union420') {
-                isEditMode = true;
-                document.body.classList.add('admin-mode');
-                document.getElementById('pin-modal').classList.add('hidden');
-                
-                const toggleBtn = document.getElementById('edit-toggle-btn');
-                toggleBtn.classList.remove('bg-sage', 'hover:bg-sage/80');
-                toggleBtn.classList.add('bg-red_sale', 'hover:bg-red-700');
-                document.getElementById('settings-icon').classList.add('rotate-90'); 
-                
-                document.getElementById('add-item-container').classList.remove('hidden');
-                changeCategory(currentCategory); 
-            } else {
-                document.getElementById('pin-error').textContent = 'Invalid Admin Key.';
-                input.value = '';
-            }
-        };
-
-        function showCrudModal(itemId = null, categoryOverride = null) {
-            let item = null;
-            let category = categoryOverride || currentCategory;
-
-            if (itemId) {
-                for (const cat of allCategories) {
-                    if (inventory[cat] && inventory[cat][itemId]) {
-                        item = inventory[cat][itemId];
-                        category = cat; 
-                        break;
-                    }
-                }
-                if (!item) { showMessage("Error: Item data could not be loaded for editing.", true); return; }
-            }
-            
-            const modalTitle = document.getElementById('crud-modal-title');
-            const fieldsContainer = document.getElementById('crud-fields-container');
-            const form = document.getElementById('crud-form');
-            const saveBtn = document.getElementById('crud-save-btn');
-            
-            modalTitle.textContent = item ? `Edit ${item.name}` : `Add New ${category} Item`;
-            saveBtn.textContent = item ? 'Update Item' : 'Create Item';
-            fieldsContainer.innerHTML = ''; 
-
-            fieldsContainer.innerHTML += `<input type="hidden" name="category" value="${category}"><input type="hidden" name="id" value="${item ? item.id : ''}">`;
-
-            // Status Checkboxes
-            const isSoldOut = item ? (item.isSoldOut === true) : false; 
-            const isLowStock = item ? (item.isLowStock === true) : false;
-            const isOnSale = item ? (item.isOnSale === true) : false; 
-            
-            fieldsContainer.innerHTML += `
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-sage/10 rounded-xl shadow-inner border border-sage/20">
-                    <label for="isFeatured" class="flex items-center space-x-3 cursor-pointer">
-                        <input type="checkbox" id="isFeatured" name="isFeatured" class="h-5 w-5 text-red_sale rounded border-sage/50 focus:ring-red_sale" ${item?.isFeatured ? 'checked' : ''}>
-                        <span class="text-base font-bold text-forest">Mark as FEATURED</span>
-                    </label>
-                    <label for="isOnSale" class="flex items-center space-x-3 cursor-pointer">
-                        <input type="checkbox" id="isOnSale" name="isOnSale" class="h-5 w-5 text-sale_blue rounded border-sage/50 focus:ring-sale_blue" ${isOnSale ? 'checked' : ''}>
-                        <span class="text-base font-bold text-forest">Mark as ON SALE</span>
-                    </label>
-                    <label for="isLowStock" class="flex items-center space-x-3 cursor-pointer">
-                        <input type="checkbox" id="isLowStock" name="isLowStock" class="h-5 w-5 text-orange_low rounded border-sage/50 focus:ring-orange_low" ${isLowStock ? 'checked' : ''}>
-                        <span class="text-base font-bold text-forest">Mark as LOW STOCK</span>
-                    </label>
-                    <label for="isSoldOut" class="flex items-center space-x-3 cursor-pointer sm:col-span-3">
-                        <input type="checkbox" id="isSoldOut" name="isSoldOut" class="h-5 w-5 text-red_sale rounded border-sage/50 focus:ring-red_sale" ${isSoldOut ? 'checked' : ''}>
-                        <span class="text-base font-bold text-forest">Sold Out (Check if OOS)</span>
-                    </label>
-                </div>
-            `;
-            
-            // Dynamic Fields Generation
-            categoryFields[category].forEach(field => {
-                // Skip the staffNotes field here, it's added separately
-                if (field.id === 'staffNotes') return; 
-                
-                let inputHtml = '';
-                let currentValue = item && item[field.id] !== undefined ? item[field.id] : '';
-
-                if (field.type === 'textarea') {
-                    inputHtml = `<textarea id="${field.id}" name="${field.id}" rows="3" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="${field.placeholder || field.label}" ${field.required ? 'required' : ''}>${currentValue}</textarea>`;
-                } else if (field.type === 'select') {
-                    let options = field.options.map(opt => `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`).join('');
-                    inputHtml = `<select id="${field.id}" name="${field.id}" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" ${field.required ? 'required' : ''}>${options}</select>`;
-                } else {
-                    inputHtml = `<input type="${field.type}" id="${field.id}" name="${field.id}" value="${currentValue}" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="${field.placeholder || field.label}" ${field.required ? 'required' : ''}>`;
-                }
-                
-                fieldsContainer.innerHTML += `
-                    <div class="mb-4">
-                        <label for="${field.id}" class="block text-sm font-bold mb-2 text-forest ${field.required ? 'required' : ''}">${field.label}</label>
-                        ${inputHtml}
-                    </div>`;
-            });
-            
-            // Staff Notes (Added only once at the bottom)
-             fieldsContainer.innerHTML += `
-                    <div class="mb-4 pt-4 border-t border-sage/30">
-                        <label for="staffNotes" class="block text-sm font-bold mb-2 text-forest">Internal Staff Notes (Admin Only)</label>
-                        <textarea id="staffNotes" name="staffNotes" rows="3" class="w-full p-3 border border-sage rounded-lg bg-white text-forest focus:outline-none focus:ring-2 focus:ring-sage" placeholder="e.g., Push this, Low margin, Great cross-sell item.">${item?.staffNotes || ''}</textarea>
-                    </div>
-                `;
-
-
-            form.onsubmit = (e) => {
-                e.preventDefault();
-                const formData = {};
-                new FormData(form).forEach((value, key) => { formData[key] = value.trim(); });
-                
-                const idToSave = form.querySelector('input[name="id"]').value || null;
-                const isEditing = !!idToSave;
-                
-                saveItem(formData, isEditing, idToSave);
-            };
-
-            document.getElementById('crud-modal').classList.remove('hidden');
-        };
-
-        function hideCrudModal() { document.getElementById('crud-modal').classList.add('hidden'); };
         function hideItemDetailModal() { document.getElementById('item-detail-modal').classList.add('hidden'); };
-        function showDeleteModal(itemId) { 
-            for (const cat of allCategories) {
-                if (inventory[cat] && inventory[cat][itemId]) {
-                    deleteItemDetails = inventory[cat][itemId];
-                    break;
-                }
-            }
-            if (!deleteItemDetails) { showMessage("Error: Could not find item to delete.", true); return; }
-            document.getElementById('delete-item-name').textContent = deleteItemDetails.name;
-            document.getElementById('delete-modal').classList.remove('hidden');
-        };
-        function hideDeleteModal() { document.getElementById('delete-modal').classList.add('hidden'); deleteItemDetails = null; };
-        function showCategorySelectionModal() { 
-            const container = document.getElementById('category-buttons-container');
-            container.innerHTML = allCategories.map(category => `
-                <button onclick="hideCategorySelectionModal(); showCrudModal(null, '${category}')" class="bg-sage text-cream p-4 rounded-lg font-bold hover:bg-forest transition btn-brand">
-                    ${category}
-                </button>
-            `).join('');
-            document.getElementById('category-selection-modal').classList.remove('hidden');
-        };
-        function hideCategorySelectionModal() { document.getElementById('category-selection-modal').classList.add('hidden'); };
         
         function showItemDetailModal(itemId) {
             let item = null;
-            // FIX: Check if isEditMode is true, if so, allow modal to open for admin
-            if (isEditMode) {
-                for (const cat of allCategories) {
-                    if (inventory[cat] && inventory[cat][itemId]) { item = inventory[cat][itemId]; break; }
-                }
-            } else {
-                // Original customer view logic
-                for (const cat of allCategories) {
-                    if (inventory[cat] && inventory[cat][itemId]) { item = inventory[cat][itemId]; break; }
-                }
-                if (!item) { showMessage("Error: Product details not found.", true); return; }
+            for (const cat of allCategories) {
+                if (inventory[cat] && inventory[cat][itemId]) { item = inventory[cat][itemId]; break; }
             }
 
             if (!item) { showMessage("Error: Product details not found.", true); return; }
+
+            // Prevent opening detail for sold out items
+            if (item.isSoldOut) return;
 
             const modalTitle = document.getElementById('detail-modal-title');
             const modalBody = document.getElementById('detail-modal-body');
@@ -814,6 +490,7 @@
 
             if (item.description) { html += `<p class="text-base">${item.description}</p>`; }
 
+            // Filter out admin-only fields
             const detailFields = categoryFields[item.category].filter(f => !['name', 'description', 'price', 'price_1g', 'price_35g', 'price_7g', 'staffNotes'].includes(f.id));
             
             detailFields.forEach(field => {
@@ -823,15 +500,7 @@
             });
             html += `</div>`;
             
-            // --- NEW: Internal Staff Notes (ADMIN ONLY) ---
-            if (isEditMode && item.staffNotes) {
-                html += `
-                    <div class="mt-6 p-4 bg-red-100 border border-red_sale rounded-lg">
-                        <h4 class="text-lg font-bold text-red_sale">Internal Staff Notes</h4>
-                        <p class="text-forest text-base whitespace-pre-wrap">${item.staffNotes}</p>
-                    </div>
-                `;
-            }
+            // Staff notes removed
 
             document.getElementById('detail-modal-body').innerHTML = html;
             document.getElementById('item-detail-modal').classList.remove('hidden');
@@ -854,16 +523,7 @@
             currentWeightFilter = 'All';
             currentCannabinoidFilter = 'All'; 
 
-            const addItemContainer = document.getElementById('add-item-container');
-            if (isEditMode) {
-                const clickAction = (currentCategory === 'All Products') ? 'showCategorySelectionModal()' : `showCrudModal(null, '${currentCategory}')`;
-                const buttonText = (currentCategory === 'All Products') ? '+ Add New Product' : `+ Add New ${currentCategory} Item`;
-
-                addItemContainer.innerHTML = `<button onclick="${clickAction}" class="w-full bg-forest text-cream p-3 rounded-xl font-bold hover:bg-sage transition btn-brand text-lg">${buttonText}</button>`;
-                addItemContainer.classList.remove('hidden');
-            } else {
-                 addItemContainer.classList.add('hidden');
-            }
+            // Add item container logic removed
             
             renderCategories();
             renderControls();
@@ -1065,7 +725,6 @@
                     
                     const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
                     
-                    // FIX: Simplified ALL button logic slightly for clean click handler
                     html += `<button onclick="${handler}; renderControls(); renderMenu();" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${filter}</button>`;
                 });
                 html += `</div></div>`;
@@ -1300,8 +959,9 @@
             }
 
             
-            const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.03] overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : ''}`;
-            const clickHandler = !isEditMode ? `onclick="showItemDetailModal('${item.id}')"` : '';
+            const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.03] overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : 'cursor-pointer'}`;
+            // Always assign customer click handler
+            const clickHandler = `onclick="showItemDetailModal('${item.id}')"`;
             
             let cardHtml = `
                 <div class="${cardClasses}" ${clickHandler}>
@@ -1321,18 +981,9 @@
                     </div>
 
                     <div class="p-4 pt-3 border-t border-sage/20 mt-auto flex justify-between items-center bg-cream/70">
-                        <div class="text-forest">${priceHtml}</div>`;
-            
-            if (isEditMode) {
-                cardHtml += `<div class="flex space-x-2 z-20">
-                            <button onclick="event.stopPropagation(); showCrudModal('${item.id}')" class="bg-sage text-cream p-2 rounded-lg text-xs hover:bg-forest transition btn-brand" title="Edit Item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
-                            <button onclick="event.stopPropagation(); showDeleteModal('${item.id}')" class="bg-red_sale text-white p-2 rounded-lg text-xs hover:bg-red-700 transition btn-brand" title="Delete Item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
-                        </div>
+                        <div class="text-forest">${priceHtml}</div>
                     </div>
                 </div>`;
-            } else {
-                 cardHtml += `</div></div>`; // Removed 'Click for Details'
-            }
             
             return cardHtml;
         }
@@ -1342,8 +993,6 @@
         async function authenticate() { 
             try {
                 // This app uses Anonymous Sign-In. 
-                // Any user (customer or admin) gets a temporary anonymous account.
-                // Your Firestore Security Rules will handle authorization.
                 await window.signInAnonymously(window.auth);
                 
                 window.userId = window.auth.currentUser.uid;
@@ -1388,13 +1037,6 @@
         // This listener ensures all functions are defined before we try to run them.
         document.addEventListener('DOMContentLoaded', () => {
             // Make core functions globally accessible for HTML onclicks
-            window.toggleEditMode = toggleEditMode;
-            window.handlePinKeydown = handlePinKeydown;
-            window.checkAdminKey = checkAdminKey;
-            window.hideCrudModal = hideCrudModal;
-            window.executeDelete = executeDelete;
-            window.hideDeleteModal = hideDeleteModal;
-            window.hideCategorySelectionModal = hideCategorySelectionModal;
             window.hideItemDetailModal = hideItemDetailModal;
             window.changeCategory = changeCategory;
             window.handleSearch = handleSearch;
@@ -1410,13 +1052,10 @@
             window.handleCannabinoidFilter = handleCannabinoidFilter;
             window.handleSortChange = handleSortChange;
             window.handleSortDirection = handleSortDirection;
-            window.showCrudModal = showCrudModal;
-            window.showDeleteModal = showDeleteModal;
             window.showItemDetailModal = showItemDetailModal;
-            window.showCategorySelectionModal = showCategorySelectionModal;
             window.initMenu = initMenu;
             window.showMessage = showMessage;
-            window.authenticate = authenticate; // <-- FIX: Attach authenticate to window
+            window.authenticate = authenticate;
 
              // 1. Initialize Firebase
             if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
@@ -1437,34 +1076,7 @@
                 window.initMenu(true); // Run in mock mode
             }
 
-             // --- SECRET ADMIN TRIGGER ---
-             let clickCount = 0;
-             let lastClickTime = 0;
-             const secretTrigger = document.getElementById('secret-admin-trigger');
-             
-             if (secretTrigger) {
-                secretTrigger.addEventListener('click', () => {
-                    const now = Date.now();
-                    
-                    // Reset count if taps are too far apart
-                    if (now - lastClickTime > 1500) { // 1.5 second window
-                        clickCount = 0;
-                    }
-                    
-                    lastClickTime = now;
-                    clickCount++;
-                    
-                    if (clickCount >= 3) {
-                        const editButton = document.getElementById('edit-toggle-btn');
-                        if(editButton) {
-                            editButton.classList.remove('hidden');
-                            window.showMessage('Admin access unlocked.', false);
-                        }
-                        clickCount = 0; // Reset
-                    }
-                });
-             }
-             // --- END SECRET ADMIN TRIGGER ---
+             // Admin trigger removed
         });
 
     </script>
