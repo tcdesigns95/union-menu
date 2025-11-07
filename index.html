@@ -157,8 +157,8 @@
     <!-- Firebase Imports and Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // UPDATED to include signInWithCustomToken
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // *** FIX: Added onAuthStateChanged and signInWithCustomToken ***
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         // setLogLevel('Debug'); // Uncomment this line to enable verbose Firebase logging
 
@@ -170,7 +170,8 @@
         window.initializeApp = initializeApp;
         window.getAuth = getAuth;
         window.signInAnonymously = signInAnonymously;
-        window.signInWithCustomToken = signInWithCustomToken; // <-- ADDED FOR CANVAS PREVIEW
+        window.signInWithCustomToken = signInWithCustomToken; // <-- ADDED FOR CANVAS
+        window.onAuthStateChanged = onAuthStateChanged; // <-- *** FIX: Export to window ***
         window.getFirestore = getFirestore;
         window.collection = collection;
         window.onSnapshot = onSnapshot;
@@ -193,7 +194,7 @@
         // === App State and Configuration ===
         
         // =======================================================================
-        // FIREBASE CONFIGURATION (NOW WITH CANVAS FALLBACK)
+        // FIREBASE CONFIGURATION
         // =======================================================================
         
         let firebaseConfig = {};
@@ -213,8 +214,11 @@
         // If canvas config fails or isn't present, fall back to your hardcoded config
         if (!firebaseConfig.apiKey) {
             console.log("Using fallback Firebase config (for GitHub).");
+            // *** PASTE YOUR FIREBASE CONFIG OBJECT HERE ***
+            // This is the file to copy/paste into GitHub
+            // Replace this placeholder object with your own
             firebaseConfig = {
-                apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
+  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
   storageBucket: "union-live-menu.firebasestorage.app",
@@ -229,9 +233,11 @@
         if (typeof __app_id !== 'undefined' && __app_id) {
             appId = __app_id;
             console.log("Using canvas app ID:", appId);
-        } else {
+        } else if (firebaseConfig.projectId) {
             appId = firebaseConfig.projectId; // Fallback to Project ID
             console.log("Using fallback app ID (projectId):", appId);
+        } else {
+            console.warn("No app ID found. Using default.");
         }
         
         // =======================================================================
@@ -349,38 +355,9 @@
 
         // === Firebase & Data Functions ===
         
-        // Seed data for initial population if a collection is empty
-        // REMOVED 'staffNotes' from all seed data
-        const seedData = {
-            'Flower': [
-                { id: 'seed1', name: 'Northern Lights (21% THC)', type: 'Indica', grower: 'Union Growers', description: 'Deeply relaxing, perfect for sleep.', terpenes: 'Myrcene, Caryophyllene', price_1g: '$10', price_35g: '$35', price_7g: '$65', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false }, 
-                { id: 'seed2', name: 'Sour Diesel (26% THC)', type: 'Sativa', grower: 'Pacific Organics', description: 'Energetic and euphoric, great for daytime use.', terpenes: 'Limonene, Caryophyllene', price_1g: '$12', price_35g: '$40', price_7g: '$80', isFeatured: false, isSoldOut: false, isLowStock: true, isOnSale: false },
-                { id: 'seed3', name: 'GSC (23% THC)', type: 'Hybrid', grower: 'Harmony Farms', description: 'Balanced effects, body relaxation with mental uplift.', terpenes: 'Linalool, Pinene', price_1g: '$9', price_35g: '$30', price_7g: '$55', isFeatured: false, isSoldOut: true, isLowStock: false, isOnSale: true },
-            ],
-            'Concentrates': [
-                { id: 'seed4', name: 'Blue Dream Live Resin', brand: 'Extraction Co.', type: 'Hybrid', format: 'Live Resin', potency: '75%', description: 'Sweet berry flavor, smooth texture.', price: '$40/gram', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
-            ],
-            'Cartridges': [
-                { id: 'seed6', name: 'Strawberry Banana', brand: 'Vape King', type: 'Hybrid', format_type: 'Distillate', volume: '1g', device_type: '510 Screw On', potency: '85%', price: '$55', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: true },
-                { id: 'seed7_cart', name: 'Pineapple Express Live Resin', brand: 'Resin Pens', type: 'Sativa', format_type: 'Live Resin', volume: '0.5g', device_type: 'All-In-One', potency: '90%', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false }, 
-            ],
-            'Edibles': [
-                { id: 'seed8', name: 'Blueberry Gummies', brand: 'Chew Factory', type: 'Hybrid', cannabinoids: 'CBD', dosage: '100mg', flavor: 'Blueberry', price: '$22', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
-                { id: 'seed9_edible', name: 'Sativa Fruit Chews', brand: 'Gummy Goodness', type: 'Sativa', cannabinoids: 'CBG', dosage: '50mg', flavor: 'Mango', price: '$18', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false }, 
-            ],
-            'Topicals': [
-                { id: 'seed9', name: 'CBD Relief Balm', brand: 'Wellness Co.', form: 'Balm', size: '4oz', cbd_ratio: '1:0 (1000mg CBD)', price: '$45', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
-            ],
-            'Tinctures': [
-                { id: 'seed10', name: 'Sleep Formula Drops', brand: 'Herbal Solutions', ratio: '1:1', potency: '500mg', size: '30ml', price: '$35', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: false },
-            ],
-            'Pre-Rolls': [
-                 { id: 'seed11', name: 'Wedding Cake Single', type: 'Hybrid', weight: '1g', packaging: 'Singles', infused: 'No', potency: '28% THC', price: '$12', isFeatured: true, isSoldOut: false, isLowStock: false, isOnSale: false },
-            ],
-            'Specials': [
-                { id: 'seed13_manual', name: 'BOGO Tuesday Deal', category_target: 'All Products', description: 'Buy one, get one 50% off on all accessories.', price: 'Varies', isFeatured: false, isSoldOut: false, isLowStock: false, isOnSale: true },
-            ]
-        };
+        // *** MOCK DATA REMOVED ***
+        // const seedData = { ... };
+        // async function seedCollection(category) { ... }
 
         // Helper to get the correct public collection path
         function getCollectionPath(category) {
@@ -415,25 +392,6 @@
 
         // --- Firebase Data and CRUD Operations ---
 
-        async function seedCollection(category) {
-            if (!window.db || !seedData[category] || Object.keys(inventory[category]).length > 0) return;
-            const batch = window.writeBatch(window.db);
-            const path = getCollectionPath(category);
-            const itemsToSeed = seedData[category];
-
-            itemsToSeed.forEach(item => {
-                const docRef = window.doc(window.db, path, item.id);
-                batch.set(docRef, { ...item, category: category }); 
-            });
-
-            try {
-                await batch.commit();
-                console.log(`Seeded ${category} collection.`);
-            } catch (e) {
-                console.error(`Seeding ${category} failed:`, e);
-            }
-        }
-
         function setupDataListeners() {
             allCategories.forEach(category => {
                 const path = getCollectionPath(category);
@@ -455,13 +413,8 @@
                     });
                     inventory[category] = itemsMap;
                     
-                    /*
-                    // --- REMOVED SEEDING LOGIC ---
-                    // This was re-adding mock data when a category was empty
-                    if (snapshot.empty && seedData[category]) {
-                        seedCollection(category); 
-                    }
-                    */
+                    // *** MOCK DATA LOGIC REMOVED ***
+                    // if (snapshot.empty) { ... }
                     
                     renderMenu();
                     
@@ -990,9 +943,21 @@
             }
 
             
-            const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.03] overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : 'cursor-pointer'}`;
-            // Always assign customer click handler
-            const clickHandler = `onclick="showItemDetailModal('${item.id}')"`;
+            // ADMIN: Add Edit/Delete buttons
+            let adminButtons = '';
+            if (isAdmin) {
+                adminButtons = `
+                    <div class="p-2 bg-forest/10 flex justify-end space-x-2">
+                        <button class="bg-forest text-cream p-2 rounded-lg text-xs font-bold btn-brand" onclick="event.stopPropagation(); handleEditItem('${item.id}', '${item.category}')">Edit</button>
+                        <button class="bg-red_sale text-white p-2 rounded-lg text-xs font-bold btn-brand" onclick="event.stopPropagation(); handleDeleteItem('${item.id}', '${item.category}')">Delete</button>
+                    </div>
+                `;
+            }
+
+            
+            const cardClasses = `relative flex flex-col bg-white rounded-xl shadow-lg transition-transform duration-300 ${isAdmin ? 'hover:scale-[1.02]' : 'hover:scale-[1.03]'} overflow-hidden border border-sage/30 ${item.isSoldOut ? 'sold-out' : (isAdmin ? '' : 'cursor-pointer')}`;
+            // ADMIN: Change click handler based on admin status
+            const clickHandler = isAdmin ? '' : `onclick="showItemDetailModal('${item.id}')"`;
             
             let cardHtml = `
                 <div class="${cardClasses}" ${clickHandler}>
@@ -1014,46 +979,77 @@
                     <div class="p-4 pt-3 border-t border-sage/20 mt-auto flex justify-between items-center bg-cream/70">
                         <div class="text-forest">${priceHtml}</div>
                     </div>
+                    
+                    <!-- ADMIN BUTTONS RENDERED HERE -->
+                    ${adminButtons}
                 </div>`;
             
             return cardHtml;
         }
 
-        // Authentication Function
-        // This function will be called by the DOMContentLoaded listener
-        // async function authenticate() { 
-        //     try {
-        //         // This app uses Anonymous Sign-In. 
-        //         await window.signInAnonymously(window.auth);
-                
-        //         window.userId = window.auth.currentUser.uid;
-        //         window.initMenu(); 
-        //     } catch (error) {
-        //         console.error("Firebase Auth error:", error);
-        //         if(window.showMessage) {
-        //             window.showMessage("Could not authenticate with database.", true); 
-        //         } else {
-        //             // Fallback alert if showMessage isn't defined yet
-        //             alert("Could not authenticate with database.");
-        //         }
-        //     }
-        // }
+        // --- ADMIN AUTHENTICATION ---
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorP = document.getElementById('login-error');
+            errorP.textContent = '';
+            
+            // --- FIX START ---
+            // Add a guard clause to check if Firebase auth was initialized
+            if (!window.auth) {
+                console.error("Login Error: window.auth is not initialized. Check firebaseConfig.");
+                errorP.textContent = 'Error: Firebase config is missing or invalid.';
+                return;
+            }
+            // --- FIX END ---
+            
+            window.signInWithEmailAndPassword(window.auth, email, password)
+                .then((userCredential) => {
+                    // Success, handled by onAuthStateChanged
+                })
+                .catch((error) => {
+                    console.error("Login Error:", error);
+                    errorP.textContent = 'Login Failed. Check username or password.';
+                });
+        }
+        
+        function handleLogout() {
+            window.signOut(window.auth).catch((error) => {
+                console.error("Logout Error:", error);
+                showMessage("Error logging out.", true);
+            });
+        }
+
+        function toggleAdminUI(isLoggedIn) {
+            isAdmin = isLoggedIn;
+            const adminElements = document.querySelectorAll('.admin-controls');
+            const loginModal = document.getElementById('login-modal');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            if (isLoggedIn) {
+                adminElements.forEach(el => el.style.display = 'block'); // Show admin controls
+                if (loginModal) loginModal.style.display = 'none'; // Hide login modal
+                if (loadingIndicator) loadingIndicator.textContent = 'Loading menu data...';
+            } else {
+                adminElements.forEach(el => el.style.display = 'none'); // Hide admin controls
+                if (loginModal) loginModal.style.display = 'flex'; // Show login modal
+                if (loadingIndicator) loadingIndicator.textContent = 'Please log in.';
+            }
+            // Re-render the menu to show/hide admin buttons on cards
+            renderMenu();
+        }
 
         function initMenu(isMock = false) {
              if (isMock) {
-                allCategories.forEach(cat => {
-                    inventory[cat] = {};
-                    (seedData[cat] || []).forEach(item => {
-                        const itemId = item.id || crypto.randomUUID(); 
-                        inventory[cat][itemId] = { ...item, id: itemId, category: cat, isFeatured: item.isFeatured || false, isSoldOut: item.isSoldOut !== undefined ? item.isSoldOut : false, isLowStock: item.isLowStock || false, isOnSale: item.isOnSale || false };
-                    });
-                });
+                // Mock mode: Show empty state
+                console.warn("Firebase not initialized, running in mock mode (empty).");
                 renderCategories();
                 renderControls();
-                renderMenu();
+                renderMenu(); // This will render an empty menu
                 const loadingIndicator = document.getElementById('loading-indicator');
                 if (loadingIndicator) {
-                     loadingIndicator.textContent = 'Menu loaded (Mock Data)';
+                     loadingIndicator.textContent = 'Menu loaded (Mock Data - Empty)';
                      setTimeout(() => loadingIndicator.classList.add('hidden'), 500);
                 }
                 return;
@@ -1065,10 +1061,20 @@
         };
 
         // --- NEW: App Initialization ---
-        // This listener ensures all functions are defined before we try to run them.
         document.addEventListener('DOMContentLoaded', async () => {
             // Make core functions globally accessible for HTML onclicks
             window.hideItemDetailModal = hideItemDetailModal;
+            window.hideAdminModal = hideAdminModal;
+            // *** NEW: Add category modal functions to global scope ***
+            window.hideCategorySelectModal = hideCategorySelectModal;
+            window.showCategorySelectModal = showCategorySelectModal;
+            window.selectCategoryForAdd = selectCategoryForAdd;
+            // *** END NEW ***
+            window.saveItem = saveItem;
+            window.handleAddItemClick = handleAddItemClick;
+            window.handleEditItem = handleEditItem;
+            window.handleDeleteItem = handleDeleteItem;
+            window.handleLogout = handleLogout;
             window.changeCategory = changeCategory;
             window.handleSearch = handleSearch;
             window.handleTypeFilter = handleTypeFilter;
@@ -1086,7 +1092,12 @@
             window.showItemDetailModal = showItemDetailModal;
             window.initMenu = initMenu;
             window.showMessage = showMessage;
-            // window.authenticate = authenticate; // REPLACED with inline logic
+            
+            // Set up login form listener
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
 
              // 1. Initialize Firebase
             if (Object.keys(firebaseConfig).length > 0 && !firebaseConfig.apiKey.includes("YOUR_")) {
@@ -1099,38 +1110,48 @@
                 }
             }
 
-            // 2. Authenticate (which calls initMenu)
+            // 2. Set up Auth Listener (The new core of the app)
             if (window.auth) {
-                try {
-                    // --- CANVAS PREVIEW LOGIC ---
-                    // Try to sign in with a canvas token if it exists
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                // --- CANVAS PREVIEW LOGIC ---
+                // Try to sign in with a canvas token if it exists
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
                         console.log("Attempting sign-in with canvas token...");
                         await window.signInWithCustomToken(window.auth, __initial_auth_token);
-                    } else {
-                        // Standard GitHub Pages sign-in
-                        console.log("Attempting anonymous sign-in...");
-                        await window.signInAnonymously(window.auth);
+                    } catch (e) {
+                        console.error("Canvas token sign-in failed:", e);
                     }
-                    
-                    window.userId = window.auth.currentUser.uid;
-                    console.log("User authenticated:", window.userId);
-                    window.initMenu(false); // Initialize real data
-
-                } catch (error) {
-                    console.error("Firebase Auth error:", error);
-                    window.showMessage("Could not authenticate with database.", true);
-                    const loadingIndicator = document.getElementById('loading-indicator');
-                    if (loadingIndicator) loadingIndicator.textContent = 'Authentication Failed. Please refresh.';
                 }
+
+                window.onAuthStateChanged(window.auth, (user) => {
+                    if (user) {
+                        // User is signed in
+                        window.userId = user.uid;
+                        toggleAdminUI(true);
+                        initMenu(false); // Initialize real data
+                    } else {
+                        // User is signed out
+                        window.userId = null;
+                        toggleAdminUI(false);
+                        // Do NOT initMenu() here, force login
+                    }
+                });
             } else {
                 console.warn("Firebase not initialized. Check config.");
+                // We can't run admin in mock mode, show error
                 const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) loadingIndicator.textContent = 'Firebase Config Missing. Cannot load menu.';
-                // window.initMenu(true); // You could run in mock mode here if you want
+                if (loadingIndicator) {
+                    loadingIndicator.textContent = 'Firebase Config Missing. Cannot load admin panel.';
+                    // This is a safe way to show the error without crashing
+                    const errorBox = document.createElement('div');
+                    errorBox.className = "p-4 bg-red-100 border-red-400 text-red-700 rounded-lg max-w-md mx-auto mt-10 font-serif";
+                    errorBox.innerHTML = `<h4 class="font-bold">Firebase Error</h4><p>The <code>firebaseConfig</code> object is missing or invalid. Please add your keys (around line 400) to connect to the database.</p>`;
+                    document.body.prepend(errorBox);
+                    const loginModal = document.getElementById('login-modal');
+                    if (loginModal) loginModal.style.display = 'none'; // Hide login
+                }
+                // initMenu(true); // Don't run mock mode for admin
             }
-            
-             // Admin trigger removed
         });
 
     </script>
