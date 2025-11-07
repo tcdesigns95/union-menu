@@ -283,7 +283,7 @@
         // PASTE YOUR FIREBASE CONFIG OBJECT HERE (SAME AS index.html)
         // =======================================================================
         
-        const firebaseConfig = {
+       const firebaseConfig = {
   apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
@@ -610,8 +610,8 @@
         
         // --- UI/Modal Logic (Requires other functions defined) ---
 
-        function hideItemDetailModal() { document.getElementById('item-detail-modal').classList.add('hidden'); };
-        function hideAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); };
+        function hideItemDetailModal() { document.getElementById('item-detail-modal').style.display = 'none'; };
+        function hideAdminModal() { document.getElementById('admin-modal').style.display = 'none'; };
         
         function showItemDetailModal(itemId) {
             if (isAdmin) return; // Admins shouldn't see customer modal, they use edit
@@ -669,7 +669,7 @@
             }
 
             document.getElementById('detail-modal-body').innerHTML = html;
-            document.getElementById('item-detail-modal').classList.remove('hidden');
+            document.getElementById('item-detail-modal').style.display = 'flex';
         };
 
         // --- ADMIN MODAL (ADD/EDIT) ---
@@ -1262,6 +1262,15 @@
             const password = document.getElementById('password').value;
             const errorP = document.getElementById('login-error');
             errorP.textContent = '';
+            
+            // --- FIX START ---
+            // Add a guard clause to check if Firebase auth was initialized
+            if (!window.auth) {
+                console.error("Login Error: window.auth is not initialized. Check firebaseConfig.");
+                errorP.textContent = 'Error: Firebase config is missing or invalid.';
+                return;
+            }
+            // --- FIX END ---
             
             window.signInWithEmailAndPassword(window.auth, email, password)
                 .then((userCredential) => {
