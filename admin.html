@@ -322,14 +322,14 @@
             // This is the file to copy/paste into GitHub
             // Replace this placeholder object with your own
             firebaseConfig = {
-    apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
+  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
   storageBucket: "union-live-menu.firebasestorage.app",
   messagingSenderId: "724633408861",
   appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
   measurementId: "G-E6C1E25NLW"
-};
+            };
         }
 
         // --- CANVAS PREVIEW LOGIC ---
@@ -572,9 +572,13 @@
                     });
                     inventory[category] = itemsMap;
                     
+                    /*
+                    // --- REMOVED SEEDING LOGIC ---
+                    // This was re-adding mock data when a category was empty
                     if (snapshot.empty && seedData[category]) {
                         seedCollection(category); 
                     }
+                    */
                     
                     renderMenu();
                     
