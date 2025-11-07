@@ -16,10 +16,10 @@
             theme: {
                 extend: {
                     colors: {
-                        cream: '#F8F2E2',      // Light background
-                        sage: '#808A6F',       // Accent and detail
-                        forest: '#22352F',     // Dark text and primary elements
-                        red_sale: '#EF4444',   // Red color for sold out/featured status
+                        cream: '#F8F2E2',     // Light background
+                        sage: '#808A6F',      // Accent and detail
+                        forest: '#22352F',    // Dark text and primary elements
+                        red_sale: '#EF4444',    // Red color for sold out/featured status
                         orange_low: '#F59E0B', // Orange for low stock
                         sale_blue: '#3B82F6',  // Blue for Sale status
                     },
@@ -157,7 +157,8 @@
     <!-- Firebase Imports and Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // UPDATED to include signInWithCustomToken
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         // setLogLevel('Debug'); // Uncomment this line to enable verbose Firebase logging
 
@@ -169,6 +170,7 @@
         window.initializeApp = initializeApp;
         window.getAuth = getAuth;
         window.signInAnonymously = signInAnonymously;
+        window.signInWithCustomToken = signInWithCustomToken; // <-- ADDED FOR CANVAS PREVIEW
         window.getFirestore = getFirestore;
         window.collection = collection;
         window.onSnapshot = onSnapshot;
@@ -191,14 +193,28 @@
         // === App State and Configuration ===
         
         // =======================================================================
-        // PASTE YOUR FIREBASE CONFIG OBJECT HERE
+        // FIREBASE CONFIGURATION (NOW WITH CANVAS FALLBACK)
         // =======================================================================
-        // 1. Go to your Firebase project settings.
-        // 2. Find your Web App's config object.
-        // 3. Copy and paste it here, replacing the placeholder object below.
         
-        const firebaseConfig = {
-  apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
+        let firebaseConfig = {};
+        let appId = 'union-live-menu'; // Default App ID (your project ID)
+
+        // --- CANVAS PREVIEW LOGIC ---
+        // Try to load config from the canvas environment first
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                firebaseConfig = JSON.parse(__firebase_config);
+                console.log("Loaded Firebase config from canvas environment.");
+            } catch (e) {
+                console.error("Failed to parse canvas Firebase config.", e);
+            }
+        }
+        
+        // If canvas config fails or isn't present, fall back to your hardcoded config
+        if (!firebaseConfig.apiKey) {
+            console.log("Using fallback Firebase config (for GitHub).");
+            firebaseConfig = {
+                apiKey: "AIzaSyCpGjsm0Uawcfqjk_jwS1POpBXlXWGLcGE",
   authDomain: "union-live-menu.firebaseapp.com",
   projectId: "union-live-menu",
   storageBucket: "union-live-menu.firebasestorage.app",
@@ -206,9 +222,20 @@
   appId: "1:724633408861:web:82e65fae1db6e95a3404b4",
   measurementId: "G-E6C1E25NLW"
 };
+        }
+
+        // --- CANVAS PREVIEW LOGIC ---
+        // Use canvas appId if available, otherwise use your hardcoded one
+        if (typeof __app_id !== 'undefined' && __app_id) {
+            appId = __app_id;
+            console.log("Using canvas app ID:", appId);
+        } else {
+            appId = firebaseConfig.projectId; // Fallback to Project ID
+            console.log("Using fallback app ID (projectId):", appId);
+        }
         
         // =======================================================================
-        // (No more edits needed above this line)
+        // (End of config logic)
         // =======================================================================
 
 
@@ -357,8 +384,7 @@
 
         // Helper to get the correct public collection path
         function getCollectionPath(category) {
-            // FIX: Use the hardcoded appId from your config, not a canvas variable
-            const appId = firebaseConfig.projectId; // Use projectId as the appId
+            // Uses the globally set 'appId' which is determined by the canvas env or fallback
             return `artifacts/${appId}/public/data/${category}`;
         }
 
@@ -429,9 +455,13 @@
                     });
                     inventory[category] = itemsMap;
                     
+                    /*
+                    // --- REMOVED SEEDING LOGIC ---
+                    // This was re-adding mock data when a category was empty
                     if (snapshot.empty && seedData[category]) {
                         seedCollection(category); 
                     }
+                    */
                     
                     renderMenu();
                     
@@ -561,8 +591,8 @@
 
             if (supportsTypeFilter) {
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Type:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Type:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 
                 typeFilters.forEach(type => {
                     const filterValue = type === 'All Types' ? 'All' : type;
@@ -578,25 +608,25 @@
             if (currentCategory === 'Edibles') {
                 const cannabinoidFilters = ['All Cannabinoids', 'THC', 'CBD', 'CBG', 'CBN', 'CBC'];
                  html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Focus:</label>
-                             <div class="flex flex-wrap gap-2">`;
-                 
-                 cannabinoidFilters.forEach(cb => {
-                     const filterValue = cb === 'All Cannabinoids' ? 'All' : cb;
-                     const isActive = currentCannabinoidFilter === filterValue;
-                     const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
-                     
-                     html += `<button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${cb}</button>`;
-                 });
-                 html += `</div></div>`;
+                                  <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Focus:</label>
+                                  <div class="flex flex-wrap gap-2">`;
+                
+                cannabinoidFilters.forEach(cb => {
+                    const filterValue = cb === 'All Cannabinoids' ? 'All' : cb;
+                    const isActive = currentCannabinoidFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+                    
+                    html += `<button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${cb}</button>`;
+                });
+                html += `</div></div>`;
              }
 
             // --- Concentrates Format Filter Bar (Live Rosin / Live Resin) ---
             if (currentCategory === 'Concentrates') {
                 const formatFilters = ['All Formats', 'Live Resin', 'Live Rosin'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Concentrate Format:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Concentrate Format:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 
                 formatFilters.forEach(format => {
                     const filterValue = format === 'All Formats' ? 'All' : format;
@@ -612,8 +642,8 @@
              if (currentCategory === 'Tinctures') {
                 const ratioFilters = ['All Ratios', '1:1', '5:1 CBD', 'CBD Only', 'THC Only'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Ratio:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Cannabinoid Ratio:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 
                 ratioFilters.forEach(ratio => {
                     const filterValue = ratio === 'All Ratios' ? 'All' : ratio;
@@ -629,8 +659,8 @@
              if (currentCategory === 'Topicals') {
                 const formFilters = ['All Forms', 'Lotion', 'Balm', 'Salt', 'Oil'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Product Form:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Product Form:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 
                 formFilters.forEach(form => {
                     const filterValue = form === 'All Forms' ? 'All' : form;
@@ -647,8 +677,8 @@
                 // 1. Content/Format Filter (Live Rosin / Live Resin)
                 const cartFormatFilters = ['All Contents', 'Live Rosin', 'Live Resin', 'Distillate', 'Oil'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Content:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Content:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 cartFormatFilters.forEach(format => {
                     const filterValue = format === 'All Contents' ? 'All' : format;
                     const isActive = currentFormatFilter === filterValue;
@@ -660,8 +690,8 @@
                 // 2. Volume/Size Filter (0.5g / 1g / 2g)
                 const volumeFilters = ['All Volumes', '0.5g', '1g', '2g'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Volume:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Volume:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 volumeFilters.forEach(volume => {
                     const filterValue = volume === 'All Volumes' ? 'All' : volume;
                     const isActive = currentVolumeFilter === filterValue;
@@ -673,8 +703,8 @@
                 // 3. Device Type Filter (510 / AIO)
                 const deviceFilters = ['All Devices', '510 Screw On', 'All-In-One'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Device Type:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Device Type:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 deviceFilters.forEach(device => {
                     const filterValue = device === 'All Devices' ? 'All' : device;
                     const isActive = currentDeviceFilter === filterValue;
@@ -689,8 +719,8 @@
                 // 1. Weight Filter (0.5g / 1g / 1.5g)
                 const weightFilters = ['All Weights', '0.5g', '1g', '1.5g'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Weight:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Weight:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 weightFilters.forEach(weight => {
                     const filterValue = weight === 'All Weights' ? 'All' : weight;
                     const isActive = currentWeightFilter === filterValue;
@@ -702,8 +732,8 @@
                 // 2. Packaging/Infusion Filter (Packs / Singles / Infused)
                 const packInfusionFilters = ['All Packaging', 'Singles', 'Packs', 'Infused', 'Non-Infused'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
-                            <label class="text-xs font-bold text-forest mb-1 block">Filter by Packaging/Infusion:</label>
-                            <div class="flex flex-wrap gap-2">`;
+                             <label class="text-xs font-bold text-forest mb-1 block">Filter by Packaging/Infusion:</label>
+                             <div class="flex flex-wrap gap-2">`;
                 
                 packInfusionFilters.forEach(filter => {
                     const filterValue = filter === 'All Packaging' ? 'All' : filter;
@@ -756,7 +786,7 @@
             } else if (currentCategory !== 'Flower') {
                  sortOptions = sortOptions.filter(opt => !opt.value.startsWith('price_'));
                  if (!sortOptions.some(opt => opt.value === 'price')) {
-                    sortOptions.push({ value: 'price', label: 'Price' });
+                   sortOptions.push({ value: 'price', label: 'Price' });
                  }
             }
 
@@ -991,23 +1021,23 @@
 
         // Authentication Function
         // This function will be called by the DOMContentLoaded listener
-        async function authenticate() { 
-            try {
-                // This app uses Anonymous Sign-In. 
-                await window.signInAnonymously(window.auth);
+        // async function authenticate() { 
+        //     try {
+        //         // This app uses Anonymous Sign-In. 
+        //         await window.signInAnonymously(window.auth);
                 
-                window.userId = window.auth.currentUser.uid;
-                window.initMenu(); 
-            } catch (error) {
-                console.error("Firebase Auth error:", error);
-                if(window.showMessage) {
-                    window.showMessage("Could not authenticate with database.", true); 
-                } else {
-                    // Fallback alert if showMessage isn't defined yet
-                    alert("Could not authenticate with database.");
-                }
-            }
-        }
+        //         window.userId = window.auth.currentUser.uid;
+        //         window.initMenu(); 
+        //     } catch (error) {
+        //         console.error("Firebase Auth error:", error);
+        //         if(window.showMessage) {
+        //             window.showMessage("Could not authenticate with database.", true); 
+        //         } else {
+        //             // Fallback alert if showMessage isn't defined yet
+        //             alert("Could not authenticate with database.");
+        //         }
+        //     }
+        // }
 
         function initMenu(isMock = false) {
              if (isMock) {
@@ -1027,7 +1057,7 @@
                      setTimeout(() => loadingIndicator.classList.add('hidden'), 500);
                 }
                 return;
-            }
+             }
             
             renderCategories();
             renderControls();
@@ -1036,7 +1066,7 @@
 
         // --- NEW: App Initialization ---
         // This listener ensures all functions are defined before we try to run them.
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // Make core functions globally accessible for HTML onclicks
             window.hideItemDetailModal = hideItemDetailModal;
             window.changeCategory = changeCategory;
@@ -1056,10 +1086,10 @@
             window.showItemDetailModal = showItemDetailModal;
             window.initMenu = initMenu;
             window.showMessage = showMessage;
-            window.authenticate = authenticate;
+            // window.authenticate = authenticate; // REPLACED with inline logic
 
              // 1. Initialize Firebase
-            if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            if (Object.keys(firebaseConfig).length > 0 && !firebaseConfig.apiKey.includes("YOUR_")) {
                 try {
                     const app = window.initializeApp(firebaseConfig);
                     window.db = window.getFirestore(app);
@@ -1070,13 +1100,36 @@
             }
 
             // 2. Authenticate (which calls initMenu)
-            if (window.db) {
-                window.authenticate(); // Authenticate with Firebase
-            } else {
-                console.warn("Firebase not initialized, running in mock mode.");
-                window.initMenu(true); // Run in mock mode
-            }
+            if (window.auth) {
+                try {
+                    // --- CANVAS PREVIEW LOGIC ---
+                    // Try to sign in with a canvas token if it exists
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        console.log("Attempting sign-in with canvas token...");
+                        await window.signInWithCustomToken(window.auth, __initial_auth_token);
+                    } else {
+                        // Standard GitHub Pages sign-in
+                        console.log("Attempting anonymous sign-in...");
+                        await window.signInAnonymously(window.auth);
+                    }
+                    
+                    window.userId = window.auth.currentUser.uid;
+                    console.log("User authenticated:", window.userId);
+                    window.initMenu(false); // Initialize real data
 
+                } catch (error) {
+                    console.error("Firebase Auth error:", error);
+                    window.showMessage("Could not authenticate with database.", true);
+                    const loadingIndicator = document.getElementById('loading-indicator');
+                    if (loadingIndicator) loadingIndicator.textContent = 'Authentication Failed. Please refresh.';
+                }
+            } else {
+                console.warn("Firebase not initialized. Check config.");
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) loadingIndicator.textContent = 'Firebase Config Missing. Cannot load menu.';
+                // window.initMenu(true); // You could run in mock mode here if you want
+            }
+            
              // Admin trigger removed
         });
 
