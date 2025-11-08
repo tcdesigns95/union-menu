@@ -293,7 +293,7 @@
                 { id: 'name', label: 'Product Name (e.g., Live Resin)', type: 'text', required: true, sortable: true },
                 { id: 'brand', label: 'Brand', type: 'text', required: true, sortable: true },
                 { id: 'type', label: 'Type', type: 'select', options: ['Indica', 'Sativa', 'Hybrid', 'N/A'], required: false, sortable: true },
-                { id: 'format', label: 'Format (Resin/Rosin)', type: 'select', options: ['Live Resin', 'Live Rosin'], required: true, sortable: true }, 
+                { id: 'format', label: 'Format (Resin/Rosin)', type: 'select', options: ['Live Resin', 'Live Rosin', 'Other', 'FECO'], required: true, sortable: true }, 
                 { id: 'potency', label: 'THC/Potency %', type: 'text' },
                 { id: 'description', label: 'Description/Texture', type: 'textarea' },
                 { id: 'price', label: 'Price (per unit)', type: 'text', required: true, priceField: true, sortable: true },
@@ -581,7 +581,7 @@
 
             // --- Concentrates Format Filter Bar (Live Rosin / Live Resin) ---
             if (currentCategory === 'Concentrates') {
-                const formatFilters = ['All Formats', 'Live Resin', 'Live Rosin'];
+                const formatFilters = ['All Formats', 'Live Resin', 'Live Rosin', 'Other', 'FECO'];
                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
                              <label class="text-xs font-bold text-forest mb-1 block">Filter by Concentrate Format:</label>
                              <div class="flex flex-wrap gap-2">`;
