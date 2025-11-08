@@ -577,8 +577,16 @@
                         input.classList.add('border-red_sale');
                         showMessage(`Field "${field.label}" is required.`, true);
                     } else {
-                        input.classList.remove('border-red_sale');
-                        itemData[field.id] = value;
+input.classList.remove('border-red_sale');
+                        let finalValue = value;
+                        
+                        // NEW: Auto-format price fields
+                        if (field.priceField && finalValue) {
+                            // Remove any existing '$' or spaces and then add one back
+                            finalValue = `$${String(finalValue).replace(/\$/g, '').trim()}`;
+                        }
+                        
+                        itemData[field.id] = finalValue;
                     }
                 }
             });
