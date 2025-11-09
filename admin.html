@@ -365,7 +365,7 @@
         let currentFormFilter = 'All'; 
         let currentWeightFilter = 'All'; 
         let currentCannabinoidFilter = 'All';
-        let currentEdibleFormFilter = 'All';
+        let currentEdibleFormFilter = 'All'; // <-- ADDED THIS
 
         
         // Icon mapping for categories (using elegant, simple SVGs)
@@ -414,7 +414,7 @@
                 { id: 'device_type', label: 'Device (510/AIO)', type: 'select', options: ['510 Screw On', 'All-In-One'], required: true, sortable: true }, 
                 { id: 'potency', label: 'THC/Potency %', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' },
                 { id: 'staffNotes', label: 'Staff Notes', type: 'textarea', adminOnly: true }, // ADMIN
             ],
             'Edibles': [
@@ -424,8 +424,8 @@
                 { id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true },
                 { id: 'dosage', label: 'Total Dosage (e.g., 100mg)', type: 'text' },
                 { id: 'flavor', label: 'Flavor/Type', type: 'text' },
-                { id: 'edibleForm', label: 'Form', type: 'select', options: ['Gummies', 'Chocolates', 'Mints', 'Drinks','FECO', 'Other'], required: true, sortable: true } ,
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'edibleForm', label: 'Form', type: 'select', options: ['Gummies', 'Chocolates', 'Mints', 'Drinks','FECO', 'Other'], required: true, sortable: true },
+                { id: 'description', label: 'Description', type: 'textarea' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
                 { id: 'staffNotes', label: 'Staff Notes', type: 'textarea', adminOnly: true }, // ADMIN
             ],
@@ -435,7 +435,7 @@
                 { id: 'form', label: 'Product Form', type: 'select', options: ['Lotion', 'Balm', 'Salt', 'Oil', 'Other'], required: true, sortable: true }, 
                 { id: 'size', label: 'Size/Volume', type: 'text' },
                 { id: 'cbd_ratio', label: 'CBD:THC Ratio', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
                 { id: 'staffNotes', label: 'Staff Notes', type: 'textarea', adminOnly: true }, // ADMIN
             ],
@@ -445,7 +445,7 @@
                 { id: 'ratio', label: 'Cannabinoid Ratio', type: 'select', options: ['1:1', '5:1 CBD', 'CBD Only', 'THC Only', 'Other'], required: true, sortable: true }, 
                 { id: 'potency', label: 'Potency (mg)', type: 'text' },
                 { id: 'size', label: 'Size (ml)', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
                 { id: 'staffNotes', label: 'Staff Notes', type: 'textarea', adminOnly: true }, // ADMIN
             ],
@@ -456,7 +456,7 @@
                 { id: 'packaging', label: 'Packaging', type: 'select', options: ['Singles', 'Packs', 'Other'], required: true, sortable: true }, 
                 { id: 'infused', label: 'Infused?', type: 'select', options: ['No', 'Yes'], required: true, sortable: true }, 
                 { id: 'potency', label: 'Potency/Notes', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
                 { id: 'staffNotes', label: 'Staff Notes', type: 'textarea', adminOnly: true }, // ADMIN
             ],
@@ -901,10 +901,12 @@ input.classList.remove('border-red_sale');
                     html += `<button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${cb}</button>`;
                 });
                 html += `</div></div>`;
-
-                 // --- Edibles Form Filter Bar (Gummies / Chocolates / etc) ---
+            }
+            
+            // --- *** FIX: MOVED THIS BLOCK *** ---
+            // --- Edibles Form Filter Bar (Gummies / Chocolates / etc) ---
             if (currentCategory === 'Edibles') {
-                const edibleFormFilters = ['All Forms', 'Gummies', 'Chocolates', 'Mints', 'Drinks', 'Other'];
+                const edibleFormFilters = ['All Forms', 'Gummies', 'Chocolates', 'Mints', 'Drinks', 'FECO', 'Other'];
                  html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
                                   <label class="text-xs font-bold text-forest mb-1 block">Filter by Edible Form:</label>
                                   <div class="flex flex-wrap gap-2">`;
@@ -917,7 +919,7 @@ input.classList.remove('border-red_sale');
                     html += `<button onclick="handleEdibleFormFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${form}</button>`;
                 });
                 html += `</div></div>`;
-             }
+            }
 
 
             // --- Concentrates Format Filter Bar (Live Rosin / Live Resin) ---
@@ -1185,7 +1187,7 @@ input.classList.remove('border-red_sale');
 
             // 6. Edibles Form Filter (NEW)
             if (currentCategory === 'Edibles' && currentEdibleFormFilter !== 'All') {
-             itemsToDisplay = itemsToDisplay.filter(item => item.edibleForm && item.edibleForm === currentEdibleFormFilter);
+               itemsToDisplay = itemsToDisplay.filter(item => item.edibleForm && item.edibleForm === currentEdibleFormFilter);
             }
 
             
