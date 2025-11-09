@@ -260,7 +260,8 @@
         let currentInfusionFilter = 'All'; 
         let currentFormFilter = 'All'; 
         let currentWeightFilter = 'All'; 
-        let currentCannabinoidFilter = 'All'; 
+        let currentCannabinoidFilter = 'All';
+        let currentEdibleFormFilter = 'All';
 
         
         // Icon mapping for categories (using elegant, simple SVGs)
@@ -316,6 +317,7 @@
                 { id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true },
                 { id: 'dosage', label: 'Total Dosage (e.g., 100mg)', type: 'text' },
                 { id: 'flavor', label: 'Flavor/Type', type: 'text' },
+                { id: 'edibleForm', label: 'Form', type: 'select', options: ['Gummies', 'Chocolates', 'Mints', 'Drinks', 'FECO', 'Other'], required: true, sortable: true },
                 { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
             ],
@@ -510,7 +512,8 @@
             currentInfusionFilter = 'All';
             currentFormFilter = 'All';
             currentWeightFilter = 'All';
-            currentCannabinoidFilter = 'All'; 
+            currentCannabinoidFilter = 'All';
+            currentEdibleFormFilter = 'All';
 
             // Add item container logic removed
             
@@ -530,7 +533,8 @@
         function handleWeightFilter(weight) { currentWeightFilter = weight; renderControls(); renderMenu(); };
         function handlePackagingFilter(packaging) { currentPackagingFilter = packaging; renderControls(); renderMenu(); };
         function handleInfusionFilter(infused) { currentInfusionFilter = infused; renderControls(); renderMenu(); };
-        function handleCannabinoidFilter(cannabinoid) { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); }; 
+        function handleCannabinoidFilter(cannabinoid) { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); };
+        function handleEdibleFormFilter(form) { currentEdibleFormFilter = form; renderControls(); renderMenu(); };
         function handleSortChange(event) { currentSortBy = event.target.value; renderControls(); renderMenu(); };
         function handleSortDirection(direction) { currentSortDirection = direction; renderControls(); renderMenu(); };
         
@@ -575,6 +579,22 @@
                     const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
                     
                     html += `<button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${cb}</button>`;
+                });
+                html += `</div></div>`;
+
+         // --- Edibles Form Filter Bar (Gummies / Chocolates / etc) ---
+            if (currentCategory === 'Edibles') {
+                const edibleFormFilters = ['All Forms', 'Gummies', 'Chocolates', 'Mints', 'Drinks', 'Other'];
+                 html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
+                                  <label class="text-xs font-bold text-forest mb-1 block">Filter by Edible Form:</label>
+                                  <div class="flex flex-wrap gap-2">`;
+
+                edibleFormFilters.forEach(form => {
+                    const filterValue = form === 'All Forms' ? 'All' : form;
+                    const isActive = currentEdibleFormFilter === filterValue;
+                    const buttonClass = isActive ? 'bg-forest text-cream' : 'bg-white text-forest border border-sage/50 hover:bg-sage/10';
+
+                    html += `<button onclick="handleEdibleFormFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${form}</button>`;
                 });
                 html += `</div></div>`;
              }
@@ -841,6 +861,12 @@
             if (currentCategory === 'Edibles' && currentCannabinoidFilter !== 'All') {
                  itemsToDisplay = itemsToDisplay.filter(item => item.cannabinoids && item.cannabinoids.includes(currentCannabinoidFilter));
             }
+
+        
+            // 6. Edibles Form Filter (NEW)
+            if (currentCategory === 'Edibles' && currentEdibleFormFilter !== 'All') {
+             itemsToDisplay = itemsToDisplay.filter(item => item.edibleForm && item.edibleForm === currentEdibleFormFilter);
+        }
             
             // Cartridges Filters
             if (currentCategory === 'Cartridges') {
@@ -1037,6 +1063,7 @@
             window.handlePackagingFilter = handlePackagingFilter;
             window.handleInfusionFilter = handleInfusionFilter;
             window.handleCannabinoidFilter = handleCannabinoidFilter;
+            window.handleEdibleFormFilter = handleEdibleFormFilter;
             window.handleSortChange = handleSortChange;
             window.handleSortDirection = handleSortDirection;
             window.showItemDetailModal = showItemDetailModal;
