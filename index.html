@@ -157,7 +157,7 @@
     <!-- Firebase Imports and Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // *** FIX: Added onAuthStateChanged and signInWithCustomToken ***
+        // *** FIX: Added onAuthStateChanged and signInWithCustomToken to the import list ***
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         // setLogLevel('Debug'); // Uncomment this line to enable verbose Firebase logging
@@ -260,8 +260,8 @@
         let currentInfusionFilter = 'All'; 
         let currentFormFilter = 'All'; 
         let currentWeightFilter = 'All'; 
-        let currentCannabinoidFilter = 'All';
-        let currentEdibleFormFilter = 'All';
+        let currentCannabinoidFilter = 'All'; 
+        let currentEdibleFormFilter = 'All'; // <-- ADDED THIS
 
         
         // Icon mapping for categories (using elegant, simple SVGs)
@@ -273,7 +273,7 @@
             'Topicals': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0-7-7h14a7 7 0 0 0-7 7z"/><path d="M12 15V3.5A1.5 1.5 0 0 1 13.5 2h0A1.5 1.5 0 0 1 15 3.5v3.5"/><path d="M12 15V3.5A1.5 1.5 0 0 0 10.5 2h0A1.5 1.5 0 0 0 9 3.5v3.5"/></svg>`,
             'Tinctures': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V9a3 3 0 0 1 6 0v7"/><path d="M10 22h4"/><path d="M10 16a3 3 0 0 1-6 0h12a3 3 0 0 1-6 0z"/><path d="M10 16h4"/></svg>`,
             'Pre-Rolls': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6H6a4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4v-4a4 4 0 0 0-4-4z"/><path d="M2 10h4"/><path d="M22 10h-4"/><path d="M2 14h4"/><path d="M22 14h-4"/></svg>`,
-            'Specials': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.5c0 1.1-.9 2-2 2s-2-.9-2-2.9.9-2 2-2c1.1 0 2 .9 2 2.9z"/><path d="M17.5 14.5c0 1.1.9 2 2 2s2-.9 2-2.9-.9-2-2-2c-1.1 0-2 .9-2 2.9z"/><path d="M12.5 19.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/><path d="M14.5 17.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/><path d="M7 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M14 10.042A6.14 6.14 0 0 0 12.503 10a6.16 6.16 0 0 0-1.498.042"/><path d="M9.958 14A6.14 6.14 0 0 0 10 12.503a6.16 6.16 0 0 0-.042-1.498"/><path d="M17 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>`,
+            'Specials': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.5c0 1.1-.9 2-2 2s-2-.9-2-2.9.9-2 2-2c1.1 0 2 .9 2 2.9z"/><path d="M17.5 14.5c0 1.1.9 2 2 2s2-.9 2-2.9-.9-2-2-2c-1.1 0-2 .9-2 2.9z"/><path d="M12.5 19.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/><path d="M14.5 17.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/><path dM7 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M14 10.042A6.14 6.14 0 0 0 12.503 10a6.16 6.16 0 0 0-1.498.042"/><path d="M9.958 14A6.14 6.14 0 0 0 10 12.503a6.16 6.16 0 0 0-.042-1.498"/><path d="M17 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>`,
             'All Products': `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 15h1.5a2.5 2.5 0 0 1 0 5H4"/><path d="M19.5 15H18a2.5 2.5 0 0 1 0 5h1.5"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="9" y1="12" x2="15" y2="12"/></svg>`
         };
 
@@ -308,7 +308,7 @@
                 { id: 'device_type', label: 'Device (510/AIO)', type: 'select', options: ['510 Screw On', 'All-In-One'], required: true, sortable: true }, 
                 { id: 'potency', label: 'THC/Potency %', type: 'text' },
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED
             ],
             'Edibles': [
                 { id: 'name', label: 'Product Name', type: 'text', required: true, sortable: true },
@@ -317,8 +317,8 @@
                 { id: 'cannabinoids', label: 'Minor Cannabinoids', type: 'select', options: ['THC', 'CBD', 'CBG', 'CBN', 'CBC', 'Other'], required: false, sortable: true },
                 { id: 'dosage', label: 'Total Dosage (e.g., 100mg)', type: 'text' },
                 { id: 'flavor', label: 'Flavor/Type', type: 'text' },
-                { id: 'edibleForm', label: 'Form', type: 'select', options: ['Gummies', 'Chocolates', 'Mints', 'Drinks', 'FECO', 'Other'], required: true, sortable: true },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'edibleForm', label: 'Form', type: 'select', options: ['Gummies', 'Chocolates', 'Mints', 'Drinks','FECO', 'Other'], required: true, sortable: true }, // <-- ADDED
+                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
             ],
             'Topicals': [
@@ -327,7 +327,7 @@
                 { id: 'form', label: 'Product Form', type: 'select', options: ['Lotion', 'Balm', 'Salt', 'Oil', 'Other'], required: true, sortable: true }, 
                 { id: 'size', label: 'Size/Volume', type: 'text' },
                 { id: 'cbd_ratio', label: 'CBD:THC Ratio', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
             ],
             'Tinctures': [ 
@@ -336,7 +336,7 @@
                 { id: 'ratio', label: 'Cannabinoid Ratio', type: 'select', options: ['1:1', '5:1 CBD', 'CBD Only', 'THC Only', 'Other'], required: true, sortable: true }, 
                 { id: 'potency', label: 'Potency (mg)', type: 'text' },
                 { id: 'size', label: 'Size (ml)', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
             ],
             'Pre-Rolls': [
@@ -346,7 +346,7 @@
                 { id: 'packaging', label: 'Packaging', type: 'select', options: ['Singles', 'Packs', 'Other'], required: true, sortable: true }, 
                 { id: 'infused', label: 'Infused?', type: 'select', options: ['No', 'Yes'], required: true, sortable: true }, 
                 { id: 'potency', label: 'Potency/Notes', type: 'text' },
-                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED THIS LINE
+                { id: 'description', label: 'Description', type: 'textarea' }, // <-- ADDED
                 { id: 'price', label: 'Price', type: 'text', required: true, priceField: true, sortable: true },
             ],
             'Specials': [
@@ -512,8 +512,8 @@
             currentInfusionFilter = 'All';
             currentFormFilter = 'All';
             currentWeightFilter = 'All';
-            currentCannabinoidFilter = 'All';
-            currentEdibleFormFilter = 'All';
+            currentCannabinoidFilter = 'All'; 
+            currentEdibleFormFilter = 'All'; // <-- ADDED
 
             // Add item container logic removed
             
@@ -533,8 +533,8 @@
         function handleWeightFilter(weight) { currentWeightFilter = weight; renderControls(); renderMenu(); };
         function handlePackagingFilter(packaging) { currentPackagingFilter = packaging; renderControls(); renderMenu(); };
         function handleInfusionFilter(infused) { currentInfusionFilter = infused; renderControls(); renderMenu(); };
-        function handleCannabinoidFilter(cannabinoid) { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); };
-        function handleEdibleFormFilter(form) { currentEdibleFormFilter = form; renderControls(); renderMenu(); };
+        function handleCannabinoidFilter(cannabinoid) { currentCannabinoidFilter = cannabinoid; renderControls(); renderMenu(); }; 
+        function handleEdibleFormFilter(form) { currentEdibleFormFilter = form; renderControls(); renderMenu(); }; // <-- ADDED
         function handleSortChange(event) { currentSortBy = event.target.value; renderControls(); renderMenu(); };
         function handleSortDirection(direction) { currentSortDirection = direction; renderControls(); renderMenu(); };
         
@@ -581,10 +581,12 @@
                     html += `<button onclick="handleCannabinoidFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${cb}</button>`;
                 });
                 html += `</div></div>`;
-
-         // --- Edibles Form Filter Bar (Gummies / Chocolates / etc) ---
+            }
+            
+            // --- *** FIX: MOVED THIS BLOCK *** ---
+            // --- Edibles Form Filter Bar (Gummies / Chocolates / etc) ---
             if (currentCategory === 'Edibles') {
-                const edibleFormFilters = ['All Forms', 'Gummies', 'Chocolates', 'Mints', 'Drinks', 'Other'];
+                const edibleFormFilters = ['All Forms', 'Gummies', 'Chocolates', 'Mints', 'Drinks', 'FECO', 'Other'];
                  html += `<div class="mb-2 p-2 bg-cream shadow-inner rounded-xl border border-sage/30">
                                   <label class="text-xs font-bold text-forest mb-1 block">Filter by Edible Form:</label>
                                   <div class="flex flex-wrap gap-2">`;
@@ -597,7 +599,7 @@
                     html += `<button onclick="handleEdibleFormFilter('${filterValue}')" class="p-1.5 px-3 rounded-lg transition text-xs font-semibold btn-brand ${buttonClass}">${form}</button>`;
                 });
                 html += `</div></div>`;
-             }
+            }
 
             // --- Concentrates Format Filter Bar (Live Rosin / Live Resin) ---
             if (currentCategory === 'Concentrates') {
@@ -862,11 +864,11 @@
                  itemsToDisplay = itemsToDisplay.filter(item => item.cannabinoids && item.cannabinoids.includes(currentCannabinoidFilter));
             }
 
-        
             // 6. Edibles Form Filter (NEW)
             if (currentCategory === 'Edibles' && currentEdibleFormFilter !== 'All') {
-             itemsToDisplay = itemsToDisplay.filter(item => item.edibleForm && item.edibleForm === currentEdibleFormFilter);
-        }
+               itemsToDisplay = itemsToDisplay.filter(item => item.edibleForm && item.edibleForm === currentEdibleFormFilter);
+            }
+
             
             // Cartridges Filters
             if (currentCategory === 'Cartridges') {
@@ -1063,7 +1065,7 @@
             window.handlePackagingFilter = handlePackagingFilter;
             window.handleInfusionFilter = handleInfusionFilter;
             window.handleCannabinoidFilter = handleCannabinoidFilter;
-            window.handleEdibleFormFilter = handleEdibleFormFilter;
+            window.handleEdibleFormFilter = handleEdibleFormFilter; // <-- ADDED
             window.handleSortChange = handleSortChange;
             window.handleSortDirection = handleSortDirection;
             window.showItemDetailModal = showItemDetailModal;
@@ -1101,7 +1103,6 @@
                 }
 
                 // 3. Set up Auth Listener (will call initMenu)
-                // *** FIX: Removed stray '.' ***
                 window.onAuthStateChanged(window.auth, (user) => {
                     if (user) {
                         // User is signed in (either anonymously or via token)
